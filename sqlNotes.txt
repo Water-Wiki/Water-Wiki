@@ -1,0 +1,75 @@
+
+
+-- Types
+
+INT(5) storing 1234567 will only store 12345
+BIGINT 9480138591378571983
+
+FLOAT -23412.12512
+DOUBLE
+
+VARCHAR(30) "AndyNguyen" -- default is 1
+TEXT -- store many characters in a column
+
+DATE 2023-05-14
+DATETIME 2023-05-14 17:30:00 -- YYYY-MM-DD HH:MM:SS
+
+
+
+-- Signs
+INT(5) UNSIGNED -- no negative excluding 0
+INT(5) SIGNED -- positive or negative
+
+
+
+-- Create Tables
+CREATE TABLE comments (
+	id INT(11) NOT NULL AUTO_INCREMENT,
+    username VARCHAR(30) NOT NULL,
+    comment_text TEXT NOT NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIME,
+    users_id INT(11) NOT NULL,
+    PRIMARY KEY (id),
+    -- ON DELETE NO ACTION -- DEFAULT
+    -- ON DELETE CASCADE -- If there are any users being deleted, remove all comment made by that user
+    -- ON DELETE SET NULL -- Sets column to null
+    FOREIGN KEY (users_id) REFERENCES users (id) ON DELETE NO ACTION
+);
+
+-- Insert Data
+INSERT INTO users (username, pwd, email) VALUES ('Andy', 'myPassword', 'johndoe@gmail.com');
+INSERT INTO comments (username, comment_text, users_id) VALUES ('Bob', 'Hello, this is a really nice review!', 3);
+
+-- Update Data
+UPDATE users SET username = 'baseIsCool', pwd = 'newPassword' WHERE id = 2 AND username = 'base' AND pwd = 'otherPassword';
+
+-- Delete Data
+DELETE FROM users WHERE id = 1;
+
+-- Select Data
+SELECT username, email
+FROM users U
+WHERE U.username = "Bob";
+
+-- JOIN Data
+SELECT *
+FROM users C
+INNER JOIN comments
+ON C.id = comments.users_id;
+
+SELECT users.username, comments.comment_text, comments.created_at
+FROM users
+INNER JOIN comments
+ON users.id = comments.users_id;
+
+-- Shows all user except when user does not have a comment associated, the comment table will be null for that user
+SELECT *
+FROM users
+LEFT JOIN comments
+ON users.id = comments.users_id;
+
+-- Shows all user as long as a comment has been made by the user
+SELECT *
+FROM users
+RIGHT JOIN comments
+ON users.id = comments.users_id;
