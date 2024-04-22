@@ -1,6 +1,12 @@
 # Water-Wiki
 
-## Instruction on how to set up
+## How to Setup this Project
+
+### What you will need:
+> - vscode
+> - xampp
+> - Github extension for vscode
+> - PHP extension for vscode (Optional)
 
 ### How to install XAMPP
 
@@ -19,6 +25,35 @@
 > 6. Click start for the following:
 >> - Apache
 >> - MySQL
+
+### How to setup vscode (Assuming you already have vscode
+> 1. On vscode, enter the following:
+> - Note: Remember where your path is located at
+>> git clone "https://github.com/Water-Wiki/Water-Wiki.git"
+>
+> 2. Locate "Insert database name here" in the folder and add it to the following below:
+>> xampp > MySQL > data
+>
+> - Note: If an error occur when starting MySQL, do these following steps:
+>> 1. Change data folder name to
+>>> data_old
+>>
+>> 2. Create a new file name
+>>> data
+>>
+>> 3. Copy everything inside "backup" folder
+>> 4. Paste everything into "data" folder
+>> 5. Copy "test" and the folder you added from the repository from "data_old" folder
+>> 6. Paste into "data" folder
+>> - Note: You will need to replace the folder when prompted
+>> 7. Copy "ibdata1" file from "data_old" folder
+>> 8. Paste into "data" folder and replace
+>
+> 3. Rename the folder you cloned to
+>> htdocs
+>
+> 4. Delete "htdocs" folder inside the "xampp" folder and replace it with the cloned "htdocs" folder
+> 5. Type localhost using any browser and begin the program inside Main.php.
 
 > #### Contributers
 >
