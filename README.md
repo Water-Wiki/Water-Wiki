@@ -53,7 +53,9 @@
 4. Delete "htdocs" folder inside the "xampp" folder and replace it with the cloned "htdocs" folder
 5. Type localhost using any browser and begin the program inside Main.php.
 
-> #### Contributers
+## And you should be all set!
+
+#### Contributers
 >
 > - Andy Nguyen
 > - William Tran
