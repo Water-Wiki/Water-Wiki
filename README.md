@@ -3,28 +3,28 @@
 ## How to Setup this Project
 
 ### What you will need:
-> - vscode
-> - xampp
-> - Github extension for vscode
-> - PHP extension for vscode (Optional)
+- vscode
+- xampp
+- Github extension for vscode
+- PHP extension for vscode (Optional)
 
 ### How to install XAMPP
 
-> 1. You need to download XAMPP to begin the setup:
->
->> https://www.apachefriends.org/
->
-> 2. Follow the download as normal
-> - Note: Be sure to uncheck the prompt below when downloading:
->> Do you want to start the Control Panel now?
->
-> 4. Find where you downloaded your XAMPP and pin "xampp-control.exe" to your taskbar (for convenience)
->> xampp > xampp-control.exe
->
-> 5. Start up xampp-control.exe
-> 6. Click start for the following:
->> - Apache
->> - MySQL
+1. You need to download XAMPP to begin the setup:
+
+> https://www.apachefriends.org/
+
+2. Follow the download as normal
+- Note: Be sure to uncheck the prompt below when downloading:
+> Do you want to start the Control Panel now?
+
+4. Find where you downloaded your XAMPP and pin "xampp-control.exe" to your taskbar (for convenience)
+> xampp > xampp-control.exe
+
+5. Start up xampp-control.exe
+6. Click start for the following:
+> - Apache
+> - MySQL
 
 ### How to setup vscode (Assuming you already have vscode
 > 1. On vscode, enter the following:
