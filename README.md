@@ -1,6 +1,4 @@
-# Water-Wiki
-
-## How to Setup this Project
+# How to Setup
 
 ### What you will need:
 - vscode
@@ -8,7 +6,7 @@
 - Github extension for vscode
 - PHP extension for vscode (Optional)
 
-### How to install XAMPP
+## How to install XAMPP
 
 1. You need to download XAMPP to begin the setup:
 
@@ -26,7 +24,7 @@
 > - Apache
 > - MySQL
 
-### How to setup vscode (Assuming you already have vscode
+## How to setup vscode (Assuming you already have vscode
 > 1. On vscode, enter the following:
 > - Note: Remember where your path is located at
 >> git clone "https://github.com/Water-Wiki/Water-Wiki.git"
