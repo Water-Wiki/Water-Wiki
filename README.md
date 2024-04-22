@@ -9,7 +9,7 @@
 >> https://www.apachefriends.org/
 >
 > 2. Follow the download as normal
-> 3. Be sure to uncheck the prompt below:
+> - Note: Be sure to uncheck the prompt below when downloading:
 >> Do you want to start the Control Panel now?
 >
 > 4. Find where you downloaded your XAMPP and pin "xampp-control.exe" to your taskbar (for convenience)
