@@ -17,8 +17,8 @@
 >
 > 5. Start up xampp-control.exe
 > 6. Click start for the following:
->> Apache
->> MySQL
+>> - Apache
+>> - MySQL
 
 > #### Contributers
 >
