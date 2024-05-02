@@ -29,10 +29,10 @@
 - Note: Remember where your path is located at
 > git clone "https://github.com/Water-Wiki/Water-Wiki.git"
 
-2. Locate "Insert database name here" in the folder and add it to the following below:
+2. Locate "Databases" in the clone folder and add the inside contents to the following below:
 > xampp > MySQL > data
 
-- Note: If an error occur when starting MySQL, do these following steps:
+- Note: If an error occurs when starting MySQL, do the following steps:
 > 1. Change data folder name to
 >> data_old
 >
