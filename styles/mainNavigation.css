@@ -1,0 +1,8 @@
+.imageContainer {
+    display: grid;
+    grid-template-columns: 1fr;
+}
+
+.imageContainer img {
+    max-width: 100%;
+}
