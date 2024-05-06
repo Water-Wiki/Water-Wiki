@@ -72,9 +72,33 @@
         <!-- Main Content -->
         <h1>Plant List</h1>
 
-        <a href="createPage.html">
-            <button>Create Page</button>
-        </a>
+        <button id="openForm">Create Page</button>
+
+        <div id="overlay" class="closed">
+            <form action="includes/createPage.php" method="post"> 
+                <label for="title">Title</label>
+                <br>
+                <input required id="Title" type="text" name="title" placeholder="Title...">
+    
+                <br>
+                <br>
+
+                <label for="description">Description</label>
+                <br>
+                <textarea id="Description" type="text" name="description" placeholder="Description..." rows="10" cols="100"></textarea>
+    
+                <br>
+                <br>
+
+                <label for="favoritepet">Image Link</label>
+                <br>
+                <input required id="Image" type="text" name="image" placeholder="Image URL...">
+    
+                <br>
+                <br>
+                <button type="submit">Submit</button>
+            </form>
+        </div>
 
         <table>
             <tr>
@@ -106,5 +130,7 @@
                 <td><img src="images\Plant_List_Image.png" alt="Image"></td>
               </tr>
           </table>
+
+          <script src="scripts/main.js"></script>
     </body>
 </html>
