@@ -16,15 +16,16 @@
 - Note: Be sure to uncheck the prompt below when downloading:
 > Do you want to start the Control Panel now?
 
-4. Find where you downloaded your XAMPP and pin "xampp-control.exe" to your taskbar (for convenience)
+3. Find where you downloaded your XAMPP and pin "xampp-control.exe" to your taskbar (for convenience)
 > xampp > xampp-control.exe
 
-5. Start up xampp-control.exe
-6. Click start for the following:
+4. Start up xampp-control.exe
+
+5. Click start for the following:
 > - Apache
 > - MySQL
 
-## How to setup vscode (Assuming you already have vscode
+## How to setup vscode (Assuming you already have vscode)
 1. On vscode, enter the following:
 - Note: Remember where your path is located at
 > git clone "https://github.com/Water-Wiki/Water-Wiki.git"
