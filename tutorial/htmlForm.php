@@ -12,7 +12,7 @@
         <!-- <?php // echo $_SERVER["PHP_SELF"]; ?> included after action -->
 
         <!-- go to file website -->
-        <form action="includes/formhandler.php" method="post"> 
+        <!-- <form action="includes/formhandler.php" method="post"> 
             <label for="firstname">Firstname?</label>
 
 
@@ -29,9 +29,9 @@
                 <option value="bird">Bird</option>
             </select>
 
-            <button type="submit">Submit</button>
+            <button type="submit">Submit</button> -->
             <!-- <button type="submit" name="submit">Submit</button> if we're checking for type "submit", but this method is bad -->
-        </form>
+        <!-- </form> -->
     </main>
 
 </body>
