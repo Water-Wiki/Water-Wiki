@@ -1,9 +1,15 @@
-.square {
-    width: 200px;
+/* .square {
     height: 200px;
     background-color: #ccc;
     text-align: center;
     cursor: pointer;
+    width: fit-content;
+    display: inline-block;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    overflow: hidden;
+    border-radius: 1rem;
 }
 
 .square img {
@@ -14,4 +20,34 @@
 .square p {
     margin: 0;
     padding: 10px;
+} */
+
+.imageContainer {
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
+}
+
+.imageContainer img {
+    width: 200px;
+    height: 200px;
+    max-width: 100%;
+    max-height: 100%;
+    z-index: -1;
+}
+
+.square p {
+    margin: 0;
+    padding: 0px;
+    z-index: 2;
+    position: relative;
+    bottom: 10%;
+    left: 0%;
+}
+
+.jaro-uniquifier {
+  font-family: "Jaro", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
 }
