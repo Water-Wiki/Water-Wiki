@@ -16,23 +16,24 @@
 - Note: Be sure to uncheck the prompt below when downloading:
 > Do you want to start the Control Panel now?
 
-4. Find where you downloaded your XAMPP and pin "xampp-control.exe" to your taskbar (for convenience)
+3. Find where you downloaded your XAMPP and pin "xampp-control.exe" to your taskbar (for convenience)
 > xampp > xampp-control.exe
 
-5. Start up xampp-control.exe
-6. Click start for the following:
+4. Start up xampp-control.exe
+
+5. Click start for the following:
 > - Apache
 > - MySQL
 
-## How to setup vscode (Assuming you already have vscode
+## How to setup vscode (Assuming you already have vscode)
 1. On vscode, enter the following:
 - Note: Remember where your path is located at
 > git clone "https://github.com/Water-Wiki/Water-Wiki.git"
 
-2. Locate "Insert database name here" in the folder and add it to the following below:
+2. Locate "Databases" in the clone folder and add the inside contents to the following below:
 > xampp > MySQL > data
 
-- Note: If an error occur when starting MySQL, do these following steps:
+- Note: If an error occurs when starting MySQL, do the following steps:
 > 1. Change data folder name to
 >> data_old
 >
