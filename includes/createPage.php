@@ -5,6 +5,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $title = $_POST["title"];
     $description = $_POST["description"];
     $image = $_POST["image"];
+    $categoryType = $_GET["categoryType"];
 
     try {
         require_once "dbh.inc.php"; // this say we want to run another file with all the code in that file
@@ -15,14 +16,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // The line below is usually not safe and data should be sanatized to avoid xss
         // $query = "INSERT INTO users (username, pwd, email) VALUES ($username, $pwd, $email);";
 
-        $query = "INSERT INTO page (title, description, image) VALUES
-        (:title, :description, :image);";
+        // $query = "INSERT INTO page (title, description, image, categoryType) VALUES
+        // (:title, :description, :image," . $categoryType . ");";
+
+        // $query = "INSERT INTO page (title, description, image, categoryType) VALUES
+        // (\"Tester\", \"Testing\", \"The test\", \"plant\");";
+
+        $query = "INSERT INTO page (title, description, image, categoryType) VALUES
+        (:title, :description, :image, :categoryType);";
 
         $stmt = $pdo->prepare($query); // statement, helps sanatize data
 
         $stmt->bindParam(":title", $title);
         $stmt->bindParam(":description", $description);
         $stmt->bindParam(":image", $image);
+        $stmt->bindParam(":categoryType", $categoryType);
 
         $stmt->execute();
         // $stmt->execute([$username, $pwd, $email]); // this can also be used, top may provide more readablility
@@ -30,7 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $pdo = null; // Not required, but helps free up resources asap
         $stmt = null;
 
-        header("Location: ../Home.html");
+        header("Location: ../displayPage.php?title=" . $title);
 
         die();
         // exit(); // if you're just closing off the script without a connection, use this
