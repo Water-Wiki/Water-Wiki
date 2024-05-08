@@ -30,6 +30,7 @@ try {
     <link rel="stylesheet" href="styles/main.css">
     <link rel="stylesheet" href="styles/navigation.css">
     <!-- <link rel="stylesheet" href="styles/mainNavigation.css"> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 
 <style>
@@ -110,35 +111,36 @@ try {
         </div>
 
         <!-- Main Content -->
-        <h1>Fertilizer List</h1>
+        <div id="mainContainer">
+            <h1>Fertilizer List</h1>
 
-        <button id="openForm">Create Page</button>
+            <button id="openForm">Create Page</button>
 
-        <div id="overlay" class="closed">
-            <form action="includes/createPage.php?pageCategoryName=fertilizer" method="post"> 
-                <label for="title">Title</label>
-                <br>
-                <input required id="Title" type="text" name="title" placeholder="Title...">
-    
-                <br>
-                <br>
+            <div id="overlay" class="closed">
+                <form action="includes/createPage.php?pageCategoryName=fertilizer" method="post"> 
+                    <label for="title">Title</label>
+                    <br>
+                    <input required id="Title" type="text" name="title" placeholder="Title...">
+        
+                    <br>
+                    <br>
 
-                <label for="content">Description</label>
-                <br>
-                <textarea id="Content" type="text" name="content" placeholder="Description..." rows="10" cols="100"></textarea>
-    
-                <br>
-                <br>
+                    <label for="content">Description</label>
+                    <br>
+                    <textarea id="Content" type="text" name="content" placeholder="Description..." rows="10" cols="100"></textarea>
+        
+                    <br>
+                    <br>
 
-                <label for="image">Image Link</label>
-                <br>
-                <input required id="Image" type="text" name="image" placeholder="Image URL...">
-    
-                <br>
-                <br>
-                <button type="submit">Submit</button>
-            </form>
-        </div>
+                    <label for="image">Image Link</label>
+                    <br>
+                    <input required id="Image" type="text" name="image" placeholder="Image URL...">
+        
+                    <br>
+                    <br>
+                    <button type="submit">Submit</button>
+                </form>
+            </div>
 
             <table>
                 <tr>
@@ -169,7 +171,7 @@ try {
                     }
                 ?>
             </table>
-
-          <script src="scripts/main.js"></script>
+        </div>
+        <script src="scripts/main.js"></script>
     </body>
 </html>
