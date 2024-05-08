@@ -97,7 +97,7 @@ try {
         <button id="openForm">Create Page</button>
 
         <div id="overlay" class="closed">
-            <form action="includes/createPage.php?pageCategoryName=plant" method="post"> 
+            <form action="includes/createPage.php?pageCategoryName=fertilizer" method="post"> 
                 <label for="title">Title</label>
                 <br>
                 <input required id="Title" type="text" name="title" placeholder="Title...">
