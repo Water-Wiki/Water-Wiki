@@ -76,19 +76,37 @@ try {
     <body>
         <!-- Top bar navigation -->
         <div class="navbar">
-            <a href="Home.html">Home</a>
-            <div class="dropdown">
-                <button class="dropbtn">Databases
-                    <i class="fa fa-caret-down"></i>
-                </button>
-                
-                <div class="dropdown-content">
-                    <a href="plantList.php">Plants</a>
-                    <a href="fertilizerList.php">Fertilizers</a>
-                    <a href="toolList.php">Tools</a>
-                    <a href="shopList.php">Shops</a>
+            <div>
+                <a href="Home.html">Home</a>
+                <div class="dropdown">
+                    <button class="dropbtn">Databases
+                        <i class="fa fa-caret-down"></i>
+                    </button>
+                    
+                    <div class="dropdown-content">
+                        <a href="plantList.php">Plants</a>
+                        <a href="fertilizerList.php">Fertilizers</a>
+                        <a href="toolList.php">Tools</a>
+                        <a href="shopList.php">Shops</a>
+                    </div>
                 </div>
+
+                <div class="dropdown">
+                    <button class="dropbtn">Profile
+                        <i class="fa fa-caret-down"></i>
+                    </button>
+                
+                    <div class="dropdown-content">
+                        <a href="profile.html">Profile</a>
+                        <a href="shopList.html">Signout</a>
+                    </div>
+                </div>
+                <a href="messageWall.html">Message Wall</a>
+                <a href="activity.html">Activity</a>
             </div>
+            <form action="logout.php" method="post">
+                <button type="submit" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</button>
+            </form>
         </div>
 
         <!-- Main Content -->

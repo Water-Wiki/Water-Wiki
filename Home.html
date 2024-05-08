@@ -33,25 +33,6 @@
     tr:nth-child(even) {
         background-color: #dddddd;
     }
-
-    .navbar {
-        display: flex;
-        justify-content: space-between;
-    }
-
-    .logout-btn {
-        padding: 14px 16px;
-        margin-right: 20px; /* Adjust the margin as needed */
-        background-color: #f44336;
-        color: white;
-        border: none;
-        cursor: pointer;
-        border-radius: 5px;
-    }
-
-    .logout-btn:hover {
-        background-color: #da190b;
-    }
 </style>
 
 </head>
@@ -72,6 +53,19 @@
                         <a href="shopList.php">Shops</a>
                     </div>
                 </div>
+
+                <div class="dropdown">
+                    <button class="dropbtn">Profile
+                        <i class="fa fa-caret-down"></i>
+                    </button>
+                
+                    <div class="dropdown-content">
+                        <a href="profile.html">Profile</a>
+                        <a href="shopList.html">Signout</a>
+                    </div>
+                </div>
+                <a href="messageWall.html">Message Wall</a>
+                <a href="activity.html">Activity</a>
             </div>
             <form action="logout.php" method="post">
                 <button type="submit" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</button>
