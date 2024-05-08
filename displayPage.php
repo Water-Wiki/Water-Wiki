@@ -10,7 +10,7 @@ try {
     // $query = "INSERT INTO users (username, pwd, email) VALUES ($username, $pwd, $email);";
 
     $query = "SELECT *
-    FROM page
+    FROM pages
     WHERE title = \"" . $title . "\";";
 
     $stmt = $pdo->prepare($query); // statement, helps sanatize data
@@ -19,9 +19,6 @@ try {
     // $stmt->execute([$username, $pwd, $email]); // this can also be used, top may provide more readablility
 
     $results = $stmt->fetchAll(PDO::FETCH_ASSOC); // fetch associative
-
-    $pdo = null; // Not required, but helps free up resources asap
-    $stmt = null;
 } catch (PDOException $e) {
     die("Query failed: " . $e->getMessage()); // terminate the entire script and output an error message
 }
@@ -86,20 +83,24 @@ try {
         <body>
             <!-- Top bar navigation -->
             <div class="navbar">
-                <a href="Home.html">Home</a>
-                <a href="#news">News</a>
-                <a href="#news">News</a>
-                <div class="dropdown">
-                    <button class="dropbtn">Dropdown
-                        <i class="fa fa-caret-down"></i>
-                    </button>
-                    
-                    <div class="dropdown-content">
-                        <a href="#">Link 1</a>
-                        <a href="#">Link 2</a>
-                        <a href="#">Link 3</a>
+                <div>
+                    <a href="Home.html">Home</a>
+                    <div class="dropdown">
+                        <button class="dropbtn">Databases
+                            <i class="fa fa-caret-down"></i>
+                        </button>
+                        
+                        <div class="dropdown-content">
+                            <a href="plantList.php">Plants</a>
+                            <a href="fertilizerList.php">Fertilizers</a>
+                            <a href="toolList.php">Tools</a>
+                            <a href="shopList.php">Shops</a>
+                        </div>
                     </div>
                 </div>
+                <form action="logout.php" method="post">
+                    <button type="submit" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</button>
+                </form>
             </div>
 
             <!-- Main Content -->
@@ -112,16 +113,73 @@ try {
                 } else {
                     foreach ($results as $row) {
                         $title = htmlspecialchars($row["title"]);
-                        $description = htmlspecialchars($row["description"]);
+                        $content = htmlspecialchars($row["content"]);
                         $created_at = htmlspecialchars($row["created_at"]);
                         $image = $row["image"];
 
-                        echo $title . ": " . $description . " " . $created_at;
+                        echo $title . ": " . $content . " " . $created_at;
                         echo "<img src=" . $image . " alt=\"Image\">";
                     }
                 }
             ?>
 
+            <div id="mainContainer">
+            <h1>Comments</h1>
+
+            <form action="includes/createPage.php?categoryType=plant" method="post"> 
+                    <label for="comment">Post a comment</label>
+                    <br>
+                    <textarea id="Comment" type="text" name="comment" placeholder="Enter what you want to comment..." rows="10" cols="100"></textarea>
+                    <br>
+                    <button type="submit">Submit</button>
+                    <br><br>
+                </form>
+
+            <?php
+            try {
+                require_once "includes/dbh.inc.php"; // this say we want to run another file with all the code in that file
+
+                $pageid = (int)$_GET["pageid"];
+
+                $query = "SELECT c.created_at, c.content, a.username
+                FROM comments c
+                JOIN accounts a ON c.userid = a.userid
+                WHERE c.pageid = :pageid;";
+
+                $stmt = $pdo->prepare($query); // statement, helps sanatize data
+
+                $stmt->bindParam(":pageid", $pageid);
+                
+                $stmt->execute();
+                // $stmt->execute([$username, $pwd, $email]); // this can also be used, top may provide more readablility
+
+                $results = $stmt->fetchAll(PDO::FETCH_ASSOC); // fetch associative
+
+                $pdo = null; // Not required, but helps free up resources asap
+                $stmt = null;
+            } catch (PDOException $e) {
+                die("Query failed: " . $e->getMessage()); // terminate the entire script and output an error message
+            }
+
+            if (empty($results)) {
+                echo "<p>Nobdoy has commented, be the first to reply!</p>";
+            } else {
+                foreach ($results as $row) {
+                    $username = htmlspecialchars($row["username"]);
+                    $content = htmlspecialchars($row["content"]);
+                    $created_at = htmlspecialchars($row["created_at"]);
+
+                    echo $username . ": " . $content . " " . $created_at;
+                }
+            }
+            ?>
+
+            
+            </div>
+
+            <div>
+                
+            </div>
         </body>
     </head>
 </html>

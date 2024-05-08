@@ -27,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $_SESSION['logged_in'] = true;
                 $_SESSION['username'] = $username;
                 echo "success";
-                header("Location: home.html");
+                header("Location: Home.html");
                 exit();
             } else {
                 // Password is incorrect, redirect back to login page with error message

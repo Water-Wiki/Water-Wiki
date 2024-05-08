@@ -23,7 +23,7 @@
     <body>
         
         <div class="wrapper">
-            <form action="/PlantWiki/Water-Wiki/authentication.php" method="post"> 
+            <form action="authentication.php" method="post"> 
                 <h1>Login</h1>
                 <div class="input-box">
                     <input type="text" placeholder="" name ="username" required>
