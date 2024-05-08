@@ -176,7 +176,7 @@ try {
                     $created_at = htmlspecialchars($row["created_at"]);
 
                     echo $username . ": " . $content . " " . $created_at;
-                    echo "<br>";
+                    echo "<br><br>";
                 }
             }
             ?>
