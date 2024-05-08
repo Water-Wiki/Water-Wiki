@@ -1,8 +1,8 @@
 <?php
 
-$dsn = "mysql:host=localhost;dbname=maindatabase";
+$dsn = "mysql:host=localhost;port=3307;dbname=maindatabase";
 $dbusername = "root";
-$dbpassword = "";
+$dbpassword = "password";
 
 try {
     // my sql connection (VERY BAD)

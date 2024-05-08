@@ -5,7 +5,7 @@
     <body>
         <?php
             if (isset($_POST["username"]) && isset($_POST["password"]) && isset($_POST["email"]) && isset($_POST["displayname"]))   {
-                $conn = mysqli_connect("localhost", "root", "", "maindatabase");
+                $conn = mysqli_connect("localhost", "root", "password", "main_database", 3307);
                 if (!$conn) {
                     die("Connection failed: " . mysqli_connect_error());
                 }
@@ -13,19 +13,19 @@
                 $password = $_POST["password"];
                 $email = $_POST["email"];
                 $displayname = $_POST["displayname"];
-                $sql="SELECT * FROM account WHERE username='$username'";
+                $sql="SELECT * FROM accounts WHERE username='$username'";
                 $result = mysqli_query($conn, $sql);
                 $count = mysqli_num_rows($result);
                 if($count>0) {
                     echo "<script>alert('Registration unsuccessful. That userid is already taken.');window.location.href='Registration.php';</script>";
                 }
-                $sql="SELECT * FROM account WHERE email ='$email'";
+                $sql="SELECT * FROM accounts WHERE email ='$email'";
                 $result = mysqli_query($conn, $sql);
                 $count = mysqli_num_rows($result);
                 if($count>0) {
                     echo "<script>alert('Registration unsuccessful. That email is already taken.');window.location.href='Registration.php';</script>";
                 }
-                $sql = "INSERT INTO account (username, password, email, displayname) VALUES ('$username', '$password', '$email', '$displayname')";
+                $sql = "INSERT INTO accounts (username, password, email, displayname) VALUES ('$username', '$password', '$email', '$displayname')";
                 $results = mysqli_query($conn, $sql);
                 if ($results) {
                     mkdir("images/" . $username . "/", 0777);
