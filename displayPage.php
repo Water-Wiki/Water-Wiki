@@ -1,4 +1,7 @@
 <?php
+session_start();
+$_SESSION['lastPage'] = $_SERVER['REQUEST_URI'];
+
 try {
     require_once "includes/dbh.inc.php"; // this say we want to run another file with all the code in that file
     // require // same as include, but run an error
@@ -22,7 +25,6 @@ try {
 } catch (PDOException $e) {
     die("Query failed: " . $e->getMessage()); // terminate the entire script and output an error message
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -117,7 +119,7 @@ try {
                         $created_at = htmlspecialchars($row["created_at"]);
                         $image = $row["image"];
 
-                        echo $title . ": " . $content . " " . $created_at;
+                        echo $content . "<br><br>" . $created_at;
                         echo "<img src=" . $image . " alt=\"Image\">";
                     }
                 }
@@ -125,15 +127,19 @@ try {
 
             <div id="mainContainer">
             <h1>Comments</h1>
-
-            <form action="includes/createPage.php?categoryType=plant" method="post"> 
-                    <label for="comment">Post a comment</label>
-                    <br>
-                    <textarea id="Comment" type="text" name="comment" placeholder="Enter what you want to comment..." rows="10" cols="100"></textarea>
-                    <br>
-                    <button type="submit">Submit</button>
-                    <br><br>
-                </form>
+            
+            <?php
+                $pageid = $_GET["pageid"];
+                $commentType = "pageid";
+                echo '<form action="includes/createComment.php?commentType=' . urlencode($commentType) . '&id=' . urlencode($pageid) . '" method="post">';
+            ?>
+                <label for="content">Post a comment</label>
+                <br>
+                <textarea id="Content" type="text" name="content" placeholder="Enter what you want to comment..." rows="10" cols="100"></textarea>
+                <br>
+                <button type="submit">Submit</button>
+                <br><br>
+            </form>
 
             <?php
             try {
@@ -162,7 +168,7 @@ try {
             }
 
             if (empty($results)) {
-                echo "<p>Nobdoy has commented, be the first to reply!</p>";
+                echo "<p>Nobody has commented, be the first to reply!</p>";
             } else {
                 foreach ($results as $row) {
                     $username = htmlspecialchars($row["username"]);
@@ -170,6 +176,7 @@ try {
                     $created_at = htmlspecialchars($row["created_at"]);
 
                     echo $username . ": " . $content . " " . $created_at;
+                    echo "<br>";
                 }
             }
             ?>
