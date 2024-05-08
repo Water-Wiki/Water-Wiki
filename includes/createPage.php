@@ -3,45 +3,65 @@
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // we're not using htmlspecialchars() because we're not outputting any data with echo, we're just inserting data to database
     $title = $_POST["title"];
-    $description = $_POST["description"];
+    $content = $_POST["content"];
     $image = $_POST["image"];
-    $categoryType = $_GET["categoryType"];
+    $categoryName = $_GET["categoryName"];
+    $categoryid = NULL;
 
+    echo "Query1";
+    echo $categoryName;
+
+    // Query for the id under the categoryName
     try {
-        require_once "dbh.inc.php"; // this say we want to run another file with all the code in that file
-        // require // same as include, but run an error
-        // include // it will find the file, but if can't it will give a warning
-        // include_once // does the same, but also checks if it has been included before, which will give a warning if it does
+        require_once "dbh.inc.php";
 
-        // The line below is usually not safe and data should be sanatized to avoid xss
-        // $query = "INSERT INTO users (username, pwd, email) VALUES ($username, $pwd, $email);";
+        $query = "SELECT categoryid FROM pageCategories WHERE categoryName = :categoryName;";
 
-        // $query = "INSERT INTO page (title, description, image, categoryType) VALUES
-        // (:title, :description, :image," . $categoryType . ");";
+        $stmt = $pdo->prepare($query);
 
-        // $query = "INSERT INTO page (title, description, image, categoryType) VALUES
-        // (\"Tester\", \"Testing\", \"The test\", \"plant\");";
+        $stmt->bindParam(":categoryName", $categoryName);
 
-        $query = "INSERT INTO page (title, description, image, categoryType) VALUES
-        (:title, :description, :image, :categoryType);";
+        $stmt->execute();
+
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC); // fetch associative
+    } catch (PDOException $e) {
+        die("Query failed: " . $e->getMessage()); // terminate the entire script and output an error message
+    }
+
+    if (empty($results)) {
+        echo "There was a problem.";
+        die();
+    } else {
+        foreach ($results as $row) {
+            $categoryid = $row["categoryid"];
+        }
+    }
+
+    echo "Query2";
+    echo $categoryid;
+
+    // Insert with categoryid
+    try {
+        require_once "dbh.inc.php";
+
+        $query = "INSERT INTO pages (title, content, image, categoryid) VALUES
+        (:title, :content, :image, :categoryid);";
 
         $stmt = $pdo->prepare($query); // statement, helps sanatize data
 
         $stmt->bindParam(":title", $title);
-        $stmt->bindParam(":description", $description);
+        $stmt->bindParam(":content", $content);
         $stmt->bindParam(":image", $image);
-        $stmt->bindParam(":categoryType", $categoryType);
+        $stmt->bindParam(":categoryid", $categoryid);
 
         $stmt->execute();
-        // $stmt->execute([$username, $pwd, $email]); // this can also be used, top may provide more readablility
 
-        $pdo = null; // Not required, but helps free up resources asap
+        $pdo = null;
         $stmt = null;
 
         header("Location: ../displayPage.php?title=" . $title);
 
         die();
-        // exit(); // if you're just closing off the script without a connection, use this
     } catch (PDOException $e) {
         die("Query failed: " . $e->getMessage()); // terminate the entire script and output an error message
     }
