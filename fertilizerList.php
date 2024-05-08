@@ -1,22 +1,11 @@
 <?php
 try {
-    require_once "includes/dbh.inc.php"; // this say we want to run another file with all the code in that file
-    // require // same as include, but run an error
-    // include // it will find the file, but if can't it will give a warning
-    // include_once // does the same, but also checks if it has been included before, which will give a warning if it does
-
-    // $categoryType = $_GET['categoryType'];
-    // The line below is usually not safe and data should be sanatized to avoid xss
-    // $query = "INSERT INTO users (username, pwd, email) VALUES ($username, $pwd, $email);";
-
-    // $query = "SELECT *
-    // FROM page
-    // WHERE categoryType = \"Fertilizer\";";
+    require_once "includes/dbh.inc.php";
 
     $query = "SELECT p.*
     FROM pages p
-    JOIN pageCategory pc ON p.categoryID = pc.categoryID
-    WHERE pc.categoryName = \"Fertilizer\";";
+    JOIN pageCategories pc ON p.pageCategoryid = pc.pageCategoryid
+    WHERE pc.pageCategoryName = \"fertilizer\";";
 
     $stmt = $pdo->prepare($query); // statement, helps sanatize data
     
@@ -108,7 +97,7 @@ try {
         <button id="openForm">Create Page</button>
 
         <div id="overlay" class="closed">
-            <form action="includes/createPage.php?categoryType=Fertilizer" method="post"> 
+            <form action="includes/createPage.php?pageCategoryName=fertilizer" method="post"> 
                 <label for="title">Title</label>
                 <br>
                 <input required id="Title" type="text" name="title" placeholder="Title...">
@@ -116,14 +105,14 @@ try {
                 <br>
                 <br>
 
-                <label for="description">Description</label>
+                <label for="content">Description</label>
                 <br>
-                <textarea id="Description" type="text" name="description" placeholder="Description..." rows="10" cols="100"></textarea>
+                <textarea id="Content" type="text" name="content" placeholder="Description..." rows="10" cols="100"></textarea>
     
                 <br>
                 <br>
 
-                <label for="favoritepet">Image Link</label>
+                <label for="image">Image Link</label>
                 <br>
                 <input required id="Image" type="text" name="image" placeholder="Image URL...">
     
@@ -135,7 +124,7 @@ try {
 
             <table>
                 <tr>
-                <th>Plants</th>
+                <th>Fertilizers</th>
                 <th>Difficulty</th>
                 <th>Life Span</th>
                 <th></th>
@@ -146,17 +135,14 @@ try {
                         echo "<p>There were no results!</p>";
                     } else {
                         foreach ($results as $row) {
+                            $pageid = $row['pageid'];
                             $title = htmlspecialchars($row["title"]);
-                            $description = htmlspecialchars($row["description"]);
+                            $description = htmlspecialchars($row["content"]);
                             $created_at = htmlspecialchars($row["created_at"]);
-                            $image = ($row["image"]);
-
-                            // echo "<div>";
-                            // echo $title . ": " . $description . " " . $created_at . "<br>";
-                            // echo "</div>";
+                            $image = $row["image"];
 
                             echo '<tr>
-                                <td><a href="displayPage.php?title=' . $title .'">' . $title . '</a></td>
+                                <td><a href="displayPage.php?title=' . $title .'&pageid=' . $pageid . '">' . $title . '</a></td>
                                 <td>Impossible</td>
                                 <td>1 - 2 Days</td>
                                 <td><img src="' . $image . '" alt="Image"></td>
