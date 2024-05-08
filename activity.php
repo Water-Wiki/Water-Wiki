@@ -28,7 +28,7 @@ $stmt->execute(['username' => $username]);
 $userdata = $stmt->fetch(PDO::FETCH_ASSOC);
 $userid = $userdata['userid'];
 
-$sql = "SELECT description, created_at FROM activities WHERE userid = :userid";
+$sql = "SELECT description, created_at FROM activities WHERE userid = :userid ORDER BY created_at DESC";
 $stmt = $pdo->prepare($sql);
 $stmt->execute(['userid' => $userid]);
 
