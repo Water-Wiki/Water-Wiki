@@ -5,21 +5,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $title = $_POST["title"];
     $content = $_POST["content"];
     $image = $_POST["image"];
-    $categoryName = $_GET["categoryName"];
-    $categoryid = NULL;
-
-    echo "Query1";
-    echo $categoryName;
+    $pageCategoryName = $_GET["pageCategoryName"];
+    $pageCategoryid = NULL;
 
     // Query for the id under the categoryName
     try {
         require_once "dbh.inc.php";
 
-        $query = "SELECT categoryid FROM pageCategories WHERE categoryName = :categoryName;";
+        $query = "SELECT pageCategoryid FROM pageCategories WHERE pageCategoryName = :pageCategoryName;";
 
         $stmt = $pdo->prepare($query);
 
-        $stmt->bindParam(":categoryName", $categoryName);
+        $stmt->bindParam(":pageCategoryName", $pageCategoryName);
 
         $stmt->execute();
 
@@ -33,33 +30,53 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         die();
     } else {
         foreach ($results as $row) {
-            $categoryid = $row["categoryid"];
+            $pageCategoryid = $row["pageCategoryid"];
         }
     }
 
     echo "Query2";
-    echo $categoryid;
+    echo $pageCategoryid;
 
-    // Insert with categoryid
+    // Insert with pageCategoryid
     try {
         require_once "dbh.inc.php";
 
-        $query = "INSERT INTO pages (title, content, image, categoryid) VALUES
-        (:title, :content, :image, :categoryid);";
+        $query = "INSERT INTO pages (title, content, image, pageCategoryid) VALUES
+        (:title, :content, :image, :pageCategoryid);";
 
         $stmt = $pdo->prepare($query); // statement, helps sanatize data
 
         $stmt->bindParam(":title", $title);
         $stmt->bindParam(":content", $content);
         $stmt->bindParam(":image", $image);
-        $stmt->bindParam(":categoryid", $categoryid);
+        $stmt->bindParam(":pageCategoryid", $pageCategoryid);
 
         $stmt->execute();
+
+        $query = "SELECT pageid
+        FROM pages
+        ORDER BY pageid DESC
+        LIMIT 1;";
+
+        $stmt = $pdo->prepare($query); // statement, helps sanatize data
+
+        $stmt->execute();
+
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC); // fetch associative
 
         $pdo = null;
         $stmt = null;
 
-        header("Location: ../displayPage.php?title=" . $title);
+        if (empty($results)) {
+            echo "There was a problem.";
+            die();
+        } else {
+            foreach ($results as $row) {
+                $pageid = $row["pageid"];
+            }
+        }
+
+        header("Location: ../displayPage.php?title=" . $title .'&pageid=' . $pageid);
 
         die();
     } catch (PDOException $e) {

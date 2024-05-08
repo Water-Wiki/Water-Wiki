@@ -4,8 +4,8 @@ try {
 
     $query = "SELECT p.*
     FROM pages p
-    JOIN pageCategories pc ON p.categoryid = pc.categoryid
-    WHERE pc.categoryName = \"plant\";";
+    JOIN pageCategories pc ON p.pageCategoryid = pc.pageCategoryid
+    WHERE pc.pageCategoryName = \"plant\";";
 
     $stmt = $pdo->prepare($query); // statement, helps sanatize data
     
@@ -97,7 +97,7 @@ try {
         <button id="openForm">Create Page</button>
 
         <div id="overlay" class="closed">
-            <form action="includes/createPage.php?categoryName=plant" method="post"> 
+            <form action="includes/createPage.php?pageCategoryName=plant" method="post"> 
                 <label for="title">Title</label>
                 <br>
                 <input required id="Title" type="text" name="title" placeholder="Title...">
