@@ -49,11 +49,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->bindParam(":id", $id);
 
         $stmt->execute();
+        $description = "";
+        
 
         $pdo = null;
         $stmt = null;
 
-        header("Location: .." . $_SESSION['lastPage']);
+        header("Location: " . $_SESSION['lastPage']);
 
         die();
     } catch (PDOException $e) {

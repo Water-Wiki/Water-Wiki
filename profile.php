@@ -1,3 +1,22 @@
+<?php
+// Step 1: Connect to the database
+$dsn = "mysql:host=localhost;port=3307;dbname=main_database";
+$dbusername = "root";
+$dbpassword = "password";
+
+try {
+    $pdo = new PDO($dsn, $dbusername, $dbpassword);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    echo "Connection failed: " . $e->getMessage();
+    exit; // Terminate the script if connection fails
+}
+
+if (isset($_GET['userid'])) {
+    $userid = $_GET['userid'];
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -26,12 +45,34 @@
                 </div>
         
     </div>
+    <script>
+        window.onload = function() {
+        // Get the tab name from the URL if available
+        var urlParams = new URLSearchParams(window.location.search);
+        var tabFromUrl = urlParams.get('tab');
 
+        if (tabFromUrl) {
+            openTab(tabFromUrl);
+        } else {
+            // If no tab is specified in the URL, default to the first tab
+            openTab('about');
+        }
+    };
+
+        function openTab(tabName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            document.getElementById(tabName).style.display = "block";
+        }
+    </script>
     <!-- Main Content -->
     <div id="mainContainer">
         <button onclick="openTab('about')">About</button>
         <button onclick="openTab('activity')">Activity</button>
-        <button onClick="openTab('messageWall')">Message Wall</button>
+        <button onclick="openTab('messageWall')">Message Wall</button>
         <div id="about" class="tabcontent">
             <!-- Include content from about.php -->
             <?php include_once("about.php"); ?>
@@ -47,16 +88,5 @@
             <?php include_once("messageWall.php"); ?>
         </div>
     </div>
-
-    <script>
-        function openTab(tabName) {
-            var i, tabcontent, tablinks;
-            tabcontent = document.getElementsByClassName("tabcontent");
-            for (i = 0; i < tabcontent.length; i++) {
-                tabcontent[i].style.display = "none";
-            }
-            document.getElementById(tabName).style.display = "block";
-        }
-    </script>
 </body>
 </html>

@@ -62,7 +62,7 @@ if (!empty($results)) {
         $pdo = null;
         $stmt = null;
 
-        header("Location: .." . $_SESSION['lastPage']);
+        header("Location: " . $_SESSION['lastPage']);
         die();
     } catch (PDOException $e) {
         die("Query failed: " . $e->getMessage()); // terminate the entire script and output an error message
@@ -129,7 +129,7 @@ if (empty($likeResults) && empty($dislikeResults)) {
         $pdo = null;
         $stmt = null;
 
-        header("Location: .." . $_SESSION['lastPage']);
+        header("Location: " . $_SESSION['lastPage']);
         die();
     } catch (PDOException $e) {
         die("Query failed: " . $e->getMessage()); // terminate the entire script and output an error message
@@ -174,7 +174,7 @@ if (!empty($likeResults)) {
         $pdo = null;
         $stmt = null;
 
-        header("Location: .." . $_SESSION['lastPage']);
+        header("Location: " . $_SESSION['lastPage']);
         die();
     } catch (PDOException $e) {
         die("Query failed: " . $e->getMessage()); // terminate the entire script and output an error message
@@ -218,7 +218,7 @@ if (!empty($dislikeResults)) {
         $pdo = null;
         $stmt = null;
 
-        header("Location: .." . $_SESSION['lastPage']);
+        header("Location: " . $_SESSION['lastPage']);
         die();
     } catch (PDOException $e) {
         die("Query failed: " . $e->getMessage()); // terminate the entire script and output an error message

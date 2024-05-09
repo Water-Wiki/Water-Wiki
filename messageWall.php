@@ -66,87 +66,150 @@
                 <br><br>
 
                 <?php
-            try {
-                require_once "includes/dbh.inc.php"; // this say we want to run another file with all the code in that file
+                //$currentUrl = $_SERVER['REQUEST_URI'];
+                $currentUrl = '../profile.php?userid=' . $userid . '&tab=messageWall';
+                $_SESSION['lastPage'] = $currentUrl;
+           try {
+            require_once "includes/dbh.inc.php"; // this say we want to run another file with all the code in that file
 
-                $userid = (int)$_GET["userid"];
+            $userid = (int)$_GET["userid"];
 
-                $query = "SELECT c.created_at, c.content, a.username
-                FROM comments c
-                JOIN accounts a ON c.userid = a.userid
-                WHERE c.wallid = :userid;";
+            $query = "SELECT c.created_at, c.content, a.username, c.commentid
+            FROM comments c
+            JOIN accounts a ON c.userid = a.userid
+            WHERE c.wallid = :userid;";
 
-                $stmt = $pdo->prepare($query); // statement, helps sanatize data
+            $stmt = $pdo->prepare($query); // statement, helps sanatize data
 
-                $stmt->bindParam(":userid", $userid);
-                
-                $stmt->execute();
-                // $stmt->execute([$username, $pwd, $email]); // this can also be used, top may provide more readablility
+            $stmt->bindParam(":userid", $userid);
+            
+            $stmt->execute();
+            // $stmt->execute([$username, $pwd, $email]); // this can also be used, top may provide more readablility
 
-                $results = $stmt->fetchAll(PDO::FETCH_ASSOC); // fetch associative
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC); // fetch associative
+        } catch (PDOException $e) {
+            die("Query failed: " . $e->getMessage()); // terminate the entire script and output an error message
+        }
 
-                $pdo = null; // Not required, but helps free up resources asap
-                $stmt = null;
-            } catch (PDOException $e) {
-                die("Query failed: " . $e->getMessage()); // terminate the entire script and output an error message
-            }
+        if (empty($results)) {
+            echo "<p>Nobody has commented, be the first to reply!</p>";
+        } else {
+            $count = 0;
 
-            if (empty($results)) {
-                echo "<p>Nobody has commented, be the first to reply!</p>";
-            } else {
-                $count = 0;
+            foreach (array_reverse($results) as $row) {
+                $count++;
+                $commentType = "replyid";
 
-                foreach (array_reverse($results) as $row) {
-                    $count++;
+                $commentid = $row["commentid"];
+                $username = htmlspecialchars($row["username"]);
+                $commentContent = htmlspecialchars($row["content"]);
+                $created_at = htmlspecialchars($row["created_at"]);
 
-                    $username = htmlspecialchars($row["username"]);
-                    $commentContent = htmlspecialchars($row["content"]);
-                    $created_at = htmlspecialchars($row["created_at"]);
-
-                    echo '
-                    <style>
-                    #replyOverlay' . $count . ' {
-                        display: none;
-                    }
-                    </style>
-
-                    <h3>' . $username . '</h3>
-                    <p>' . $commentContent . '</p>
-                    <p>Commented on ' . $created_at . '</p>
-
-                    <div>
-                    <button id="openReply' . $count . '">Reply</button>
-
-                    <a href="includes/createLike.php">
-                        <button>Likes (0)</button>
-                    </a>
-                    </div>
-                    
-                    <div id="replyOverlay' . $count . '">
-                        <form action="includes/updatePage.php?userid=' . urlencode($_GET["userid"]) . '" method="post">
-                            <br>
-                            <label for="content">Post a reply</label>
-                            <br>
-                            <textarea required id="replyContent" type="text" name="content" placeholder="Enter what you want to reply with..." rows="10" cols="100"></textarea>
-                
-                            <br>
-                            <br>
-                            <button type="submit">Post Reply</button>
-                        </form>
-                    </div><hr>
-
-                    <script>
-                        document.getElementById("openReply' . $count . '").addEventListener(\'click\', x => {
-                            if (document.getElementById("replyOverlay' . $count . '").style.display == "none") {
-                                document.getElementById("replyOverlay' . $count . '").style.display = "block";
-                            } else {
-                                document.getElementById("replyOverlay' . $count . '").style.display = "none";
-                            };
-                        });
-                    </script>
-                    ';
+                // Get Count of LIKES under commentid
+                try {
+                    require_once "includes/dbh.inc.php";
+            
+                    $query = "SELECT COUNT(*) AS count
+                    FROM likes
+                    WHERE commentid = :commentid;";
+            
+                    $stmt = $pdo->prepare($query); // statement, helps sanatize data
+            
+                    $stmt->bindParam(":commentid", $commentid);
+            
+                    $stmt->execute();
+            
+                    $likeCount = $stmt->fetchAll(PDO::FETCH_ASSOC); // fetch associative
+                } catch (PDOException $e) {
+                    die("Query failed: " . $e->getMessage()); // terminate the entire script and output an error message
                 }
+
+                // Get Count of DISLIKES under commentid
+                try {
+                    require_once "includes/dbh.inc.php";
+            
+                    $query = "SELECT COUNT(*) AS count
+                    FROM dislikes
+                    WHERE commentid = :commentid;";
+            
+                    $stmt = $pdo->prepare($query); // statement, helps sanatize data
+            
+                    $stmt->bindParam(":commentid", $commentid);
+            
+                    $stmt->execute();
+            
+                    $dislikeCount = $stmt->fetchAll(PDO::FETCH_ASSOC); // fetch associative
+                } catch (PDOException $e) {
+                    die("Query failed: " . $e->getMessage()); // terminate the entire script and output an error message
+                }
+
+                if (empty($likeCount)) {
+                    echo "<p>There is no description!</p>";
+                } else {
+                    foreach ($likeCount as $row) {
+                        $likeCount = $row["count"];
+                    }
+                }
+
+                if (empty($dislikeCount)) {
+                    echo "<p>There is no description!</p>";
+                } else {
+                    foreach ($dislikeCount as $row) {
+                        $dislikeCount = $row["count"];
+                    }
+                }
+
+                echo '
+                <style>
+                #replyOverlay' . $count . ' {
+                    display: none;
+                }
+                </style>
+
+                <h3>' . $username . '</h3>
+                <p>' . $commentContent . '</p>
+                <p>Commented on ' . $created_at . '</p>
+
+                <div>
+                <button id="openReply' . $count . '">Reply</button>
+
+                <a href="includes/createReactionFeedback.php?idType=likeid&reactionType=likes&postType=commentid&id=' . $commentid . '">
+                    <button>Upvote(' . $likeCount . ')</button>
+                </a>
+
+                <a href="includes/createReactionFeedback.php?idType=dislikeid&reactionType=dislikes&postType=commentid&id=' . $commentid . '">
+                    <button>Downvote(' . $dislikeCount . ')</button>
+                </a>
+
+                </div>
+                
+                <div id="replyOverlay' . $count . '">
+                    <form action="includes/createComment.php?commentType=' . urlencode($commentType) . '&id=' . urlencode($commentid) . '" method="post">
+                        <br>
+                        <label for="content">Post a reply</label>
+                        <br>
+                        <textarea required id="replyContent" type="text" name="content" placeholder="Enter what you want to reply with..." rows="10" cols="100"></textarea>
+            
+                        <br>
+                        <br>
+                        <button type="submit">Post Reply</button>
+                    </form>
+                </div><hr>
+
+                <script>
+                    document.getElementById("openReply' . $count . '").addEventListener(\'click\', x => {
+                        if (document.getElementById("replyOverlay' . $count . '").style.display == "none") {
+                            document.getElementById("replyOverlay' . $count . '").style.display = "block";
+                        } else {
+                            document.getElementById("replyOverlay' . $count . '").style.display = "none";
+                        };
+                    });
+                </script>
+                ';
             }
+            $pdo = null;
+            $stmt = null;
+        }
             ?>
             <div class="chat-page">
                 <div class="msg-inbox">

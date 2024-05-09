@@ -14,6 +14,8 @@ try {
 
 if (isset($_GET['userid'])) {
     $userid = $_GET['userid'];
+} else {
+    $userid = 2;
 }
 
 $sql = "SELECT description, created_at FROM activities WHERE userid = :userid ORDER BY created_at DESC";
