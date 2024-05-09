@@ -1,3 +1,32 @@
+<?php
+try {
+    require_once "includes/dbh.inc.php"; // this say we want to run another file with all the code in that file
+    // require // same as include, but run an error
+    // include // it will find the file, but if can't it will give a warning
+    // include_once // does the same, but also checks if it has been included before, which will give a warning if it does
+
+    // $categoryType = $_GET['categoryType'];
+    // The line below is usually not safe and data should be sanatized to avoid xss
+    // $query = "INSERT INTO users (username, pwd, email) VALUES ($username, $pwd, $email);";
+
+    $query = "SELECT *
+    FROM page
+    WHERE categoryType = \"Tool\";";
+
+    $stmt = $pdo->prepare($query); // statement, helps sanatize data
+    
+    $stmt->execute();
+    // $stmt->execute([$username, $pwd, $email]); // this can also be used, top may provide more readablility
+
+    $results = $stmt->fetchAll(PDO::FETCH_ASSOC); // fetch associative
+
+    $pdo = null; // Not required, but helps free up resources asap
+    $stmt = null;
+} catch (PDOException $e) {
+    die("Query failed: " . $e->getMessage()); // terminate the entire script and output an error message
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -69,13 +98,12 @@
         </div>
 
         <!-- Main Content -->
-        <div id="mainContainer">
-            <h1>Plant List</h1>
+        <h1>Tool List</h1>
 
         <button id="openForm">Create Page</button>
 
         <div id="overlay" class="closed">
-            <form action="includes/createPage.php?categoryType=plant" method="post"> 
+            <form action="includes/createPage.php?categoryType=Tool" method="post"> 
                 <label for="title">Title</label>
                 <br>
                 <input required id="Title" type="text" name="title" placeholder="Title...">
@@ -107,29 +135,32 @@
                 <th>Life Span</th>
                 <th></th>
                 </tr>
-                <tr>
-                <td><a href="#">Tulip</a></td>
-                <td>Impossible</td>
-                <td>1 - 2 Days</td>
-                <td><img src="images\Plant_List_Image.png" alt="Image"></td>
-                </tr><tr>
-                    <td><a href="#">Tulip</a></td>
-                    <td>Impossible</td>
-                    <td>1 - 2 Days</td>
-                    <td><img src="images\Plant_List_Image.png" alt="Image"></td>
-                </tr><tr>
-                    <td><a href="#">Tulip</a></td>
-                    <td>Impossible</td>
-                    <td>1 - 2 Days</td>
-                    <td><img src="images\Plant_List_Image.png" alt="Image"></td>
-                </tr><tr>
-                    <td><a href="#">Tulip</a></td>
-                    <td>Impossible</td>
-                    <td>1 - 2 Days</td>
-                    <td><img src="images\Plant_List_Image.png" alt="Image"></td>
-                </tr>
+
+                <?php
+                    if (empty($results)) {
+                        echo "<p>There were no results!</p>";
+                    } else {
+                        foreach ($results as $row) {
+                            $title = htmlspecialchars($row["title"]);
+                            $description = htmlspecialchars($row["description"]);
+                            $created_at = htmlspecialchars($row["created_at"]);
+                            $image = ($row["image"]);
+
+                            // echo "<div>";
+                            // echo $title . ": " . $description . " " . $created_at . "<br>";
+                            // echo "</div>";
+
+                            echo '<tr>
+                                <td><a href="displayPage.php?title=' . $title .'">' . $title . '</a></td>
+                                <td>Impossible</td>
+                                <td>1 - 2 Days</td>
+                                <td><img src="' . $image . '" alt="Image"></td>
+                            </tr>';
+                        }
+                    }
+                ?>
             </table>
-          </div>
+
           <script src="scripts/main.js"></script>
     </body>
 </html>

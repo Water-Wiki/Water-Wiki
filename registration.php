@@ -19,7 +19,7 @@
     <body>
         
         <div class="wrapper">
-            <form action="/PlantWiki/Water-Wiki/process.php" id="register" method="post"> 
+            <form action="process.php" id="register" method="post"> 
                 <h1>Register</h1>
                 <div class="input-box">
                     <input type="email" placeholder="" id="email" name ="email">

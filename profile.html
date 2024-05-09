@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plant List</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/navigation.css">
+    <!-- <link rel="stylesheet" href="styles/mainNavigation.css"> -->
+</head>
+
+<style>
+    body {
+        background-image: url('https://wallpapercave.com/wp/wp8335591.jpg');
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-attachment: fixed;
+    }
+
+    table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+
+    tr:nth-child(even) {
+        background-color: #dddddd;
+    }
+
+    tr:nth-child(odd) {
+        background-color: rgb(200, 200, 200);
+    }
+
+    img {
+    width: 100px;
+    height: 100px;
+    max-width: 100%;
+    max-height: 100%;
+    z-index: -1;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+</style>
+
+</head>
+    <body>
+        <!-- Top bar navigation -->
+        <div class="navbar">
+            <a href="Home.html">Home</a>
+            <div class="dropdown">
+                <button class="dropbtn">Databases
+                    <i class="fa fa-caret-down"></i>
+                </button>
+                
+                <div class="dropdown-content">
+                    <a href="plantList.html">Plants</a>
+                    <a href="fertilizerList.html">Fertilizers</a>
+                    <a href="toolList.html">Tools</a>
+                    <a href="shopList.html">Shops</a>
+                </div>
+            </div>
+
+            <div class="dropdown">
+                <button class="dropbtn">Profile
+                    <i class="fa fa-caret-down"></i>
+                </button>
+            
+                <div class="dropdown-content">
+                    <a href="profile.html">Profile</a>
+                    <a href="shopList.html">Signout</a>
+                </div>
+            </div>
+
+            <a href="messageWall.html">Message Wall</a>
+
+            <a href="activity.html">Activity</a>
+        </div>
+
+        <!-- Main Content -->
+        <div id="mainContainer">
+            <h1>Username</h1>
+            <p>About Me</p>
+
+        <button id="openForm">Edit Profile</button>
+
+        <div id="overlay" class="closed">
+            <form action="includes/createPage.php" method="post"> 
+                <label for="username">Username</label>
+                <br>
+                <input required id="Username" type="text" name="username" placeholder="Username...">
+    
+                <br>
+                <br>
+
+                <label for="about">About</label>
+                <br>
+                <textarea id="About" type="text" name="about" placeholder="About..." rows="10" cols="100"></textarea>
+    
+                <br>
+                <br>
+
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+        </div>
+          <script src="scripts/main.js"></script>
+    </body>
+</html>

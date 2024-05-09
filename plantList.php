@@ -1,17 +1,11 @@
 <?php
 try {
-    require_once "includes/dbh.inc.php"; // this say we want to run another file with all the code in that file
-    // require // same as include, but run an error
-    // include // it will find the file, but if can't it will give a warning
-    // include_once // does the same, but also checks if it has been included before, which will give a warning if it does
+    require_once "includes/dbh.inc.php";
 
-    // $categoryType = $_GET['categoryType'];
-    // The line below is usually not safe and data should be sanatized to avoid xss
-    // $query = "INSERT INTO users (username, pwd, email) VALUES ($username, $pwd, $email);";
-
-    $query = "SELECT *
-    FROM page
-    WHERE categoryType = \"Plant\";";
+    $query = "SELECT p.*
+    FROM pages p
+    JOIN pageCategories pc ON p.categoryid = pc.categoryid
+    WHERE pc.categoryName = \"plant\";";
 
     $stmt = $pdo->prepare($query); // statement, helps sanatize data
     
@@ -83,17 +77,16 @@ try {
         <!-- Top bar navigation -->
         <div class="navbar">
             <a href="Home.html">Home</a>
-            <a href="#news">News</a>
-            <a href="#news">News</a>
             <div class="dropdown">
-                <button class="dropbtn">Dropdown
+                <button class="dropbtn">Databases
                     <i class="fa fa-caret-down"></i>
                 </button>
                 
                 <div class="dropdown-content">
-                    <a href="#">Link 1</a>
-                    <a href="#">Link 2</a>
-                    <a href="#">Link 3</a>
+                    <a href="plantList.php">Plants</a>
+                    <a href="fertilizerList.php">Fertilizers</a>
+                    <a href="toolList.php">Tools</a>
+                    <a href="shopList.php">Shops</a>
                 </div>
             </div>
         </div>
@@ -104,7 +97,7 @@ try {
         <button id="openForm">Create Page</button>
 
         <div id="overlay" class="closed">
-            <form action="includes/createPage.php" method="post"> 
+            <form action="includes/createPage.php?categoryName=plant" method="post"> 
                 <label for="title">Title</label>
                 <br>
                 <input required id="Title" type="text" name="title" placeholder="Title...">
@@ -112,14 +105,14 @@ try {
                 <br>
                 <br>
 
-                <label for="description">Description</label>
+                <label for="content">Description</label>
                 <br>
-                <textarea id="Description" type="text" name="description" placeholder="Description..." rows="10" cols="100"></textarea>
+                <textarea id="Content" type="text" name="content" placeholder="Description..." rows="10" cols="100"></textarea>
     
                 <br>
                 <br>
 
-                <label for="favoritepet">Image Link</label>
+                <label for="image">Image Link</label>
                 <br>
                 <input required id="Image" type="text" name="image" placeholder="Image URL...">
     
@@ -142,17 +135,14 @@ try {
                         echo "<p>There were no results!</p>";
                     } else {
                         foreach ($results as $row) {
+                            $pageid = $row['pageid'];
                             $title = htmlspecialchars($row["title"]);
-                            $description = htmlspecialchars($row["description"]);
+                            $description = htmlspecialchars($row["content"]);
                             $created_at = htmlspecialchars($row["created_at"]);
-                            $image = ($row["image"]);
-
-                            // echo "<div>";
-                            // echo $title . ": " . $description . " " . $created_at . "<br>";
-                            // echo "</div>";
+                            $image = $row["image"];
 
                             echo '<tr>
-                                <td><a href="displayPage.php?title=' . $title .'">' . $title . '</a></td>
+                                <td><a href="displayPage.php?title=' . $title .'&pageid=' . $pageid . '">' . $title . '</a></td>
                                 <td>Impossible</td>
                                 <td>1 - 2 Days</td>
                                 <td><img src="' . $image . '" alt="Image"></td>
