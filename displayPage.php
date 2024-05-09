@@ -39,6 +39,7 @@ try {
 
         <link rel="stylesheet" href="styles/main.css">
         <link rel="stylesheet" href="styles/navigation.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     </head>
 
     <style>
@@ -50,23 +51,13 @@ try {
         }
 
         table {
-            font-family: arial, sans-serif;
             border-collapse: collapse;
             width: 100%;
         }
 
         td, th {
-            border: 1px solid #dddddd;
+            border: 0px;
             text-align: left;
-            padding: 8px;
-        }
-
-        tr:nth-child(even) {
-            background-color: #dddddd;
-        }
-
-        tr:nth-child(odd) {
-            background-color: rgb(200, 200, 200);
         }
 
         img {
@@ -85,47 +76,62 @@ try {
         <body>
             <!-- Top bar navigation -->
             <div class="navbar">
-                <div>
-                    <a href="Home.html">Home</a>
-                    <div class="dropdown">
-                        <button class="dropbtn">Databases
-                            <i class="fa fa-caret-down"></i>
-                        </button>
-                        
-                        <div class="dropdown-content">
-                            <a href="plantList.php">Plants</a>
-                            <a href="fertilizerList.php">Fertilizers</a>
-                            <a href="toolList.php">Tools</a>
-                            <a href="shopList.php">Shops</a>
-                        </div>
+            <div>
+                <a href="Home.html">Home</a>
+                <div class="dropdown">
+                    <button class="dropbtn">Databases
+                        <i class="fa fa-caret-down"></i>
+                    </button>
+                    
+                    <div class="dropdown-content">
+                        <a href="plantList.php">Plants</a>
+                        <a href="fertilizerList.php">Fertilizers</a>
+                        <a href="toolList.php">Tools</a>
+                        <a href="shopList.php">Shops</a>
                     </div>
                 </div>
-                <form action="logout.php" method="post">
-                    <button type="submit" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</button>
-                </form>
+
+                <div class="dropdown">
+                    <button class="dropbtn">Profile
+                        <i class="fa fa-caret-down"></i>
+                    </button>
+                
+                    <div class="dropdown-content">
+                        <a href="profile.html">Profile</a>
+                        <a href="shopList.html">Signout</a>
+                    </div>
+                </div>
+                <a href="messageWall.html">Message Wall</a>
+                <a href="activity.html">Activity</a>
             </div>
+            <form action="logout.php" method="post">
+                <button type="submit" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</button>
+            </form>
+        </div>
 
-            <!-- Main Content -->
-            <?php
-                echo "<h1>$title</h1>";
-                echo "<h2>Description<h2>";
+        <!-- Main Content -->
+        <div id="mainContainer">
+            <table>
+                <?php
+                    echo "<td><h1>$title</h1><h2>Description</h2>";
 
-                if (empty($results)) {
-                    echo "<p>There were no results!</p>";
-                } else {
-                    foreach ($results as $row) {
-                        $title = htmlspecialchars($row["title"]);
-                        $content = htmlspecialchars($row["content"]);
-                        $created_at = htmlspecialchars($row["created_at"]);
-                        $image = $row["image"];
+                    if (empty($results)) {
+                        echo "<p>There is no description!</p>";
+                    } else {
+                        foreach ($results as $row) {
+                            $title = htmlspecialchars($row["title"]);
+                            $content = htmlspecialchars($row["content"]);
+                            $created_at = htmlspecialchars($row["created_at"]);
+                            $image = $row["image"];
 
-                        echo $content . "<br><br>" . $created_at;
-                        echo "<img src=" . $image . " alt=\"Image\">";
+                            echo "<p>$content</p> <br> <p>Page was created on $created_at</p></td>";
+                            echo "<td><img src=$image alt=\"Image\"></td>";
+                        }
                     }
-                }
-            ?>
+                ?>
+            </table>
 
-            <div id="mainContainer">
+            <hr>
             <h1>Comments</h1>
             
             <?php
@@ -170,23 +176,18 @@ try {
             if (empty($results)) {
                 echo "<p>Nobody has commented, be the first to reply!</p>";
             } else {
-                foreach ($results as $row) {
+                
+                foreach (array_reverse($results) as $row) {
                     $username = htmlspecialchars($row["username"]);
                     $content = htmlspecialchars($row["content"]);
                     $created_at = htmlspecialchars($row["created_at"]);
 
-                    echo $username . ": " . $content . " " . $created_at;
-                    echo "<br><br>";
+                    echo "<h3>$username:</h3><p>$content</p><p>Commented on $created_at</p><hr>";
                 }
             }
             ?>
-
-            
-            </div>
-
-            <div>
                 
-            </div>
+        </div>
         </body>
     </head>
 </html>
