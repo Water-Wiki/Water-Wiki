@@ -114,7 +114,7 @@ try {
             <button id="openForm">Edit page</button>
             <br><br>
 
-            <div id="overlay" class="closed">
+            <div id="overlay">
                 <?php
                 echo '<form action="includes/updatePage.php?pageid=' . urlencode($_GET["pageid"]) . '" method="post">';
                 ?>
@@ -207,12 +207,57 @@ try {
             if (empty($results)) {
                 echo "<p>Nobody has commented, be the first to reply!</p>";
             } else {
+                $count = 0;
+
                 foreach (array_reverse($results) as $row) {
+                    $count++;
+
                     $username = htmlspecialchars($row["username"]);
                     $commentContent = htmlspecialchars($row["content"]);
                     $created_at = htmlspecialchars($row["created_at"]);
 
-                    echo "<h3>$username:</h3><p>$commentContent</p><p>Commented on $created_at</p><hr>";
+                    echo '
+                    <style>
+                    #replyOverlay' . $count . ' {
+                        display: none;
+                    }
+                    </style>
+
+                    <h3>' . $username . '</h3>
+                    <p>' . $commentContent . '</p>
+                    <p>Commented on ' . $created_at . '</p>
+
+                    <div>
+                    <button id="openReply' . $count . '">Reply</button>
+
+                    <a href="createLike.html">
+                        <button>Likes (0)</button>
+                    </a>
+                    </div>
+                    
+                    <div id="replyOverlay' . $count . '">
+                        <form action="includes/updatePage.php?pageid=' . urlencode($_GET["pageid"]) . '" method="post">
+                            <br>
+                            <label for="content">Post a reply</label>
+                            <br>
+                            <textarea required id="replyContent" type="text" name="content" placeholder="Enter what you want to reply with..." rows="10" cols="100"></textarea>
+                
+                            <br>
+                            <br>
+                            <button type="submit">Post Reply</button>
+                        </form>
+                    </div><hr>
+
+                    <script>
+                        document.getElementById("openReply' . $count . '").addEventListener(\'click\', x => {
+                            if (document.getElementById("replyOverlay' . $count . '").style.display == "none") {
+                                document.getElementById("replyOverlay' . $count . '").style.display = "block";
+                            } else {
+                                document.getElementById("replyOverlay' . $count . '").style.display = "none";
+                            };
+                        });
+                    </script>
+                    ';
                 }
             }
             ?>
@@ -229,7 +274,7 @@ try {
     };
     </script>
 
-    <script src="scripts/main.js"></script>
+    <!-- <script src="scripts/main.js"></script> -->
     </body>
 </html>
 
