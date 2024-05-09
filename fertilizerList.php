@@ -91,17 +91,7 @@ try {
                         <a href="shopList.php">Shops</a>
                     </div>
                 </div>
-
-                <div class="dropdown">
-                    <button class="dropbtn">Profile
-                        <i class="fa fa-caret-down"></i>
-                    </button>
-                
-                    <div class="dropdown-content">
-                        <a href="profile.html">Profile</a>
-                        <a href="shopList.html">Signout</a>
-                    </div>
-                </div>
+                <a href="profile.html">Profile</a>
                 <a href="messageWall.html">Message Wall</a>
                 <a href="activity.html">Activity</a>
             </div>
@@ -115,6 +105,7 @@ try {
             <h1>Fertilizer List</h1>
 
             <button id="openForm">Create Page</button>
+            <br>
 
             <div id="overlay" class="closed">
                 <form action="includes/createPage.php?pageCategoryName=fertilizer" method="post"> 

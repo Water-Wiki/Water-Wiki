@@ -43,7 +43,7 @@
                     <p>Don't have an account? <a href="Registration.php">Register</a></p>
                 </div>
                 <div class="register-link">
-                    <p><a href="HomePage.html">Home</a></p>
+                    <p><a href="Home.html">Home</a></p>
                 </div>
             </form>
         </div>
