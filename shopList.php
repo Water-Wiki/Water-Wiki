@@ -115,6 +115,7 @@ try {
             <h1>Shop List</h1>
 
             <button id="openForm">Create Page</button>
+            <br>
 
             <div id="overlay" class="closed">
                 <form action="includes/createPage.php?pageCategoryName=shop" method="post"> 
