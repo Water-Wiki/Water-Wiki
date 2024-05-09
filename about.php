@@ -1,5 +1,6 @@
 <?php
 // Step 1: Connect to the database
+session_start();
 $dsn = "mysql:host=localhost;port=3307;dbname=main_database";
 $dbusername = "root";
 $dbpassword = "password";
@@ -12,17 +13,25 @@ try {
     exit; // Terminate the script if connection fails
 }
 
+// Step 2: Retrieve user information
+// You need to specify the user ID or username for which you want to display the profile
 if (isset($_GET['userid'])) {
     $userid = $_GET['userid'];
+    $username = $_SESSION['username'];
 }
+// Prepare the SQL query
+$sql = "SELECT * FROM Accounts WHERE userid = :userid";
 
-$sql = "SELECT description, created_at FROM activities WHERE userid = :userid ORDER BY created_at DESC";
+// Prepare and execute the statement
 $stmt = $pdo->prepare($sql);
 $stmt->execute(['userid' => $userid]);
-
-$activity_data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-
+// Fetch the user data
+$userData = $stmt->fetch(PDO::FETCH_ASSOC);
+$sql = "SELECT * FROM Accounts WHERE username = :username";
+$stmt = $pdo->prepare($sql);
+$stmt->execute(['username' => $username]);
+$userData2 = $stmt->fetch(PDO::FETCH_ASSOC);
+$allowEdit = ($userid == $userData2['userid']);
 // Step 3: Display the profile information
 ?>
 
@@ -80,21 +89,20 @@ $activity_data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 </head>
     <body>
+       
         <!-- Main Content -->
-        
-            
-        
-        <?php if ($activity_data) : ?>
+        <?php if ($userData) : ?>
             <div>
-                <h2>Activity</h2>
-                <ul>
-                    <?php foreach ($activity_data as $activity) : ?>
-                        <li><?php echo $activity['description']; ?> - <?php echo $activity['created_at']; ?></li>
-                    <?php endforeach; ?>
-                </ul>
+                <h1 style="display: inline;"><?php echo $userData['displayName']; ?></h1>
+                <span class="username">(@<?php echo $userData['username']; ?>)</span>
             </div>
+            <p>About: <?php echo $userData['aboutMe']; ?></p>
+            <p>Joined <?php echo $userData['create_at']; ?></p>
+            <?php if ($allowEdit) : ?>
+            <a href="updateProfile.php" class="edit-profile-button">Edit Profile</a>
+            <?php endif; ?>
         <?php else : ?>
-            <p>Activity not found.</p>
+            <p>User not found.</p>
         <?php endif; ?>
           <script src="scripts/main.js"></script>
     </body>

@@ -76,7 +76,7 @@ try {
     <body>
         <!-- Top bar navigation -->
         <div class="navbar">
-            <a href="Home.html">Home</a>
+            <a href="Home.php">Home</a>
             <div class="dropdown">
                 <button class="dropbtn">Databases
                     <i class="fa fa-caret-down"></i>

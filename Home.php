@@ -1,3 +1,28 @@
+<?php
+session_start();
+$dsn = "mysql:host=localhost;port=3307;dbname=main_database";
+$dbusername = "root";
+$dbpassword = "password";
+
+try {
+    $pdo = new PDO($dsn, $dbusername, $dbpassword);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    echo "Connection failed: " . $e->getMessage();
+    exit; // Terminate the script if connection fails
+}
+
+if ($_SESSION['logged_in']) {
+    $username= $_SESSION['username'];
+}
+
+$sql = "SELECT * FROM ACCOUNTS WHERE username = :username";
+$stmt = $pdo->prepare($sql);
+$stmt->execute(['username' => $username]);
+$user_data = $stmt->fetch(PDO::FETCH_ASSOC);
+$userid = $user_data['userid']
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -52,6 +77,20 @@
     .logout-btn:hover {
         background-color: #da190b;
     }
+
+    .profile-btn {
+        padding: 14px 16px;
+        margin-left: 20px; /* Adjust the margin as needed */
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+
+    .profile-btn:hover {
+        background-color: #45a049;
+    }
 </style>
 
 </head>
@@ -59,7 +98,7 @@
         <!-- Top bar navigation -->
         <div class="navbar">
             <div>
-                <a href="Home.html">Home</a>
+                <a href="Home.php">Home</a>
                 <div class="dropdown">
                     <button class="dropbtn">Databases
                         <i class="fa fa-caret-down"></i>
@@ -72,6 +111,7 @@
                         <a href="shopList.php">Shops</a>
                     </div>
                 </div>
+                <button onclick="location.href='profile.php?userid=<?php echo $userid; ?>';" class="profile-btn"><i class="fas fa-user"></i> Profile</button>
             </div>
             <form action="logout.php" method="post">
                 <button type="submit" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</button>
