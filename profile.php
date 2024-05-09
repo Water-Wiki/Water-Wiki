@@ -31,6 +31,7 @@
     <div id="mainContainer">
         <button onclick="openTab('about')">About</button>
         <button onclick="openTab('activity')">Activity</button>
+        <button onClick="openTab('messageWall')">Message Wall</button>
         <div id="about" class="tabcontent">
             <!-- Include content from about.php -->
             <?php include_once("about.php"); ?>
@@ -39,6 +40,11 @@
         <div id="activity" class="tabcontent" style="display: none;">
             <!-- Include content from activity.php -->
             <?php include_once("activity.php"); ?>
+        </div>
+
+        <div id="messageWall" class="tabcontent" style="display: none;">
+            <!-- Include content from activity.php -->
+            <?php include_once("messageWall.php"); ?>
         </div>
     </div>
 

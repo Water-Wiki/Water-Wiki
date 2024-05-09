@@ -6,7 +6,7 @@
         unset($_SESSION['login_error']);
     }
     if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == TRUE) {
-        header("Location: Home.html");
+        header("Location: Home.php");
         exit; 
     }
 ?>

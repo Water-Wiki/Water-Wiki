@@ -12,7 +12,7 @@
                 $username = $_POST["username"];
                 $password = $_POST["password"];
                 $email = $_POST["email"];
-                $displayname = $_POST["displayName"];
+                $displayname = $_POST["displayname"];
 
                 $sql="SELECT * 
                 FROM accounts 

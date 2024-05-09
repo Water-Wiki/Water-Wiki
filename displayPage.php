@@ -76,7 +76,7 @@ try {
             <!-- Top bar navigation -->
             <div class="navbar">
             <div>
-                <a href="Home.html">Home</a>
+                <a href="Home.php">Home</a>
                 <div class="dropdown">
                     <button class="dropbtn">Databases
                         <i class="fa fa-caret-down"></i>
@@ -89,10 +89,6 @@ try {
                         <a href="shopList.php">Shops</a>
                     </div>
                 </div>
-
-                <a href="profile.html">Profile</a>
-                <a href="messageWall.html">Message Wall</a>
-                <a href="activity.html">Activity</a>
             </div>
 
             <form action="logout.php" method="post">
@@ -221,7 +217,7 @@ try {
                     <div>
                     <button id="openReply' . $count . '">Reply</button>
 
-                    <a href="createLike.html">
+                    <a href="includes/createLike.php">
                         <button>Likes (0)</button>
                     </a>
                     </div>
