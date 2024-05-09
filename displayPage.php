@@ -91,16 +91,7 @@ try {
                     </div>
                 </div>
 
-                <div class="dropdown">
-                    <button class="dropbtn">Profile
-                        <i class="fa fa-caret-down"></i>
-                    </button>
-                
-                    <div class="dropdown-content">
-                        <a href="profile.html">Profile</a>
-                        <a href="shopList.html">Signout</a>
-                    </div>
-                </div>
+                <a href="profile.html">Profile</a>
                 <a href="messageWall.html">Message Wall</a>
                 <a href="activity.html">Activity</a>
             </div>
