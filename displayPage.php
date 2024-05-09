@@ -219,10 +219,10 @@ try {
                     <p>Commented on ' . $created_at . '</p>
 
                     <div>
-                    <button id="openReply' . $count . '">Reply</button>
+                    <button class="small" id="openReply' . $count . '">Reply</button>
 
                     <a href="createLike.html">
-                        <button>Likes (0)</button>
+                        <button class="small">Likes (0)</button>
                     </a>
                     </div>
                     
@@ -235,7 +235,7 @@ try {
                 
                             <br>
                             <br>
-                            <button type="submit">Post Reply</button>
+                            <button class="small" type="submit">Post Reply</button>
                         </form>
                     </div><hr>
 
