@@ -123,3 +123,13 @@ button{
 button:hover {
     background-color: #222;
 }
+
+td {
+    word-wrap: break-word;
+    max-width:150px;
+}
+
+th {
+    word-wrap: break-word;
+    max-width:150px;
+}
