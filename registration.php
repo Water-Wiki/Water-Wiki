@@ -11,7 +11,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Registration</title>
-        <link rel="stylesheet" href="mystyles.css">
+        <link rel="stylesheet" href="styles/mystyles.css">
         <script src="https://unpkg.com/just-validate@latest/dist/just-validate.production.min.js" defer></script>
         <script src="validation.js" defer></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
