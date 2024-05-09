@@ -171,7 +171,7 @@ try {
 
                 $pageid = (int)$_GET["pageid"];
 
-                $query = "SELECT c.created_at, c.content, a.username
+                $query = "SELECT c.created_at, c.content, a.username, c.commentid
                 FROM comments c
                 JOIN accounts a ON c.userid = a.userid
                 WHERE c.pageid = :pageid;";
@@ -184,9 +184,6 @@ try {
                 // $stmt->execute([$username, $pwd, $email]); // this can also be used, top may provide more readablility
 
                 $results = $stmt->fetchAll(PDO::FETCH_ASSOC); // fetch associative
-
-                $pdo = null; // Not required, but helps free up resources asap
-                $stmt = null;
             } catch (PDOException $e) {
                 die("Query failed: " . $e->getMessage()); // terminate the entire script and output an error message
             }
@@ -198,10 +195,66 @@ try {
 
                 foreach (array_reverse($results) as $row) {
                     $count++;
+                    $commentType = "replyid";
 
+                    $commentid = $row["commentid"];
                     $username = htmlspecialchars($row["username"]);
                     $commentContent = htmlspecialchars($row["content"]);
                     $created_at = htmlspecialchars($row["created_at"]);
+
+                    // Get Count of LIKES under commentid
+                    try {
+                        require_once "includes/dbh.inc.php";
+                
+                        $query = "SELECT COUNT(*) AS count
+                        FROM likes
+                        WHERE commentid = :commentid;";
+                
+                        $stmt = $pdo->prepare($query); // statement, helps sanatize data
+                
+                        $stmt->bindParam(":commentid", $commentid);
+                
+                        $stmt->execute();
+                
+                        $likeCount = $stmt->fetchAll(PDO::FETCH_ASSOC); // fetch associative
+                    } catch (PDOException $e) {
+                        die("Query failed: " . $e->getMessage()); // terminate the entire script and output an error message
+                    }
+
+                    // Get Count of DISLIKES under commentid
+                    try {
+                        require_once "includes/dbh.inc.php";
+                
+                        $query = "SELECT COUNT(*) AS count
+                        FROM dislikes
+                        WHERE commentid = :commentid;";
+                
+                        $stmt = $pdo->prepare($query); // statement, helps sanatize data
+                
+                        $stmt->bindParam(":commentid", $commentid);
+                
+                        $stmt->execute();
+                
+                        $dislikeCount = $stmt->fetchAll(PDO::FETCH_ASSOC); // fetch associative
+                    } catch (PDOException $e) {
+                        die("Query failed: " . $e->getMessage()); // terminate the entire script and output an error message
+                    }
+
+                    if (empty($likeCount)) {
+                        echo "<p>There is no description!</p>";
+                    } else {
+                        foreach ($likeCount as $row) {
+                            $likeCount = $row["count"];
+                        }
+                    }
+
+                    if (empty($dislikeCount)) {
+                        echo "<p>There is no description!</p>";
+                    } else {
+                        foreach ($dislikeCount as $row) {
+                            $dislikeCount = $row["count"];
+                        }
+                    }
 
                     echo '
                     <style>
@@ -217,13 +270,18 @@ try {
                     <div>
                     <button id="openReply' . $count . '">Reply</button>
 
-                    <a href="includes/createLike.php">
-                        <button>Likes (0)</button>
+                    <a href="includes/createReactionFeedback.php?idType=likeid&reactionType=likes&postType=commentid&id=' . $commentid . '">
+                        <button>Upvote(' . $likeCount . ')</button>
                     </a>
+
+                    <a href="includes/createReactionFeedback.php?idType=dislikeid&reactionType=dislikes&postType=commentid&id=' . $commentid . '">
+                        <button>Downvote(' . $dislikeCount . ')</button>
+                    </a>
+
                     </div>
                     
                     <div id="replyOverlay' . $count . '">
-                        <form action="includes/updatePage.php?pageid=' . urlencode($_GET["pageid"]) . '" method="post">
+                        <form action="includes/createComment.php?commentType=' . urlencode($commentType) . '&id=' . urlencode($commentid) . '" method="post">
                             <br>
                             <label for="content">Post a reply</label>
                             <br>
@@ -246,6 +304,8 @@ try {
                     </script>
                     ';
                 }
+                $pdo = null;
+                $stmt = null;
             }
             ?>
                 
