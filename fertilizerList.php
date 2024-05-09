@@ -138,7 +138,7 @@ try {
                 <th>Fertilizers</th>
                 <th>Difficulty</th>
                 <th>Life Span</th>
-                <th></th>
+                <th>Image</th>
                 </tr>
 
                 <?php
