@@ -4,8 +4,8 @@ try {
 
     $query = "SELECT p.*
     FROM pages p
-    JOIN pageCategories pc ON p.categoryid = pc.categoryid
-    WHERE pc.categoryName = \"plant\";";
+    JOIN pageCategories pc ON p.pageCategoryid = pc.pageCategoryid
+    WHERE pc.pageCategoryName = \"plant\";";
 
     $stmt = $pdo->prepare($query); // statement, helps sanatize data
     
@@ -30,6 +30,7 @@ try {
     <link rel="stylesheet" href="styles/main.css">
     <link rel="stylesheet" href="styles/navigation.css">
     <!-- <link rel="stylesheet" href="styles/mainNavigation.css"> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 
 <style>
@@ -76,58 +77,66 @@ try {
     <body>
         <!-- Top bar navigation -->
         <div class="navbar">
-            <a href="Home.php">Home</a>
-            <div class="dropdown">
-                <button class="dropbtn">Databases
-                    <i class="fa fa-caret-down"></i>
-                </button>
-                
-                <div class="dropdown-content">
-                    <a href="plantList.php">Plants</a>
-                    <a href="fertilizerList.php">Fertilizers</a>
-                    <a href="toolList.php">Tools</a>
-                    <a href="shopList.php">Shops</a>
+            <div>
+                <a href="Home.php">Home</a>
+                <div class="dropdown">
+                    <button class="dropbtn">Databases
+                        <i class="fa fa-caret-down"></i>
+                    </button>
+                    
+                    <div class="dropdown-content">
+                        <a href="plantList.php">Plants</a>
+                        <a href="fertilizerList.php">Fertilizers</a>
+                        <a href="toolList.php">Tools</a>
+                        <a href="shopList.php">Shops</a>
+                    </div>
                 </div>
+                <a href="profile.php">Profile</a>
             </div>
+            <form action="logout.php" method="post">
+                <button type="submit" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</button>
+            </form>
         </div>
 
         <!-- Main Content -->
-        <h1>Plant List</h1>
+        <div id="mainContainer">
+            <h1>Plant List</h1>
 
-        <button id="openForm">Create Page</button>
+            <button id="openForm">Create Page</button>
+            <br><br>
 
-        <div id="overlay" class="closed">
-            <form action="includes/createPage.php?categoryName=plant" method="post"> 
-                <label for="title">Title</label>
-                <br>
-                <input required id="Title" type="text" name="title" placeholder="Title...">
-    
-                <br>
-                <br>
+            <div id="overlay">
+                <form action="includes/createPage.php?pageCategoryName=plant" method="post"> 
+                    <label for="title">Title</label>
+                    <br>
+                    <input required id="Title" type="text" name="title" placeholder="Title...">
+        
+                    <br>
+                    <br>
 
-                <label for="content">Description</label>
-                <br>
-                <textarea id="Content" type="text" name="content" placeholder="Description..." rows="10" cols="100"></textarea>
-    
-                <br>
-                <br>
+                    <label for="content">Description</label>
+                    <br>
+                    <textarea id="Content" type="text" name="content" placeholder="Description..." rows="10" cols="100"></textarea>
+        
+                    <br>
+                    <br>
 
-                <label for="image">Image Link</label>
-                <br>
-                <input required id="Image" type="text" name="image" placeholder="Image URL...">
-    
-                <br>
-                <br>
-                <button type="submit">Submit</button>
-            </form>
-        </div>
+                    <label for="image">Image Link</label>
+                    <br>
+                    <input required id="Image" type="text" name="image" placeholder="Image URL...">
+        
+                    <br>
+                    <br>
+                    <button type="submit">Submit</button>
+                </form>
+            </div>
 
             <table>
                 <tr>
                 <th>Plants</th>
                 <th>Difficulty</th>
                 <th>Life Span</th>
-                <th></th>
+                <th>Image</th>
                 </tr>
 
                 <?php
@@ -150,8 +159,10 @@ try {
                         }
                     }
                 ?>
+
             </table>
 
-          <script src="scripts/main.js"></script>
+        </div>
+        <script src="scripts/main.js"></script>
     </body>
 </html>

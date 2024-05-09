@@ -1,4 +1,7 @@
 <?php
+session_start();
+$_SESSION['lastPage'] = $_SERVER['REQUEST_URI'];
+
 try {
     require_once "includes/dbh.inc.php"; // this say we want to run another file with all the code in that file
     // require // same as include, but run an error
@@ -22,7 +25,6 @@ try {
 } catch (PDOException $e) {
     die("Query failed: " . $e->getMessage()); // terminate the entire script and output an error message
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -37,6 +39,7 @@ try {
 
         <link rel="stylesheet" href="styles/main.css">
         <link rel="stylesheet" href="styles/navigation.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     </head>
 
     <style>
@@ -48,23 +51,13 @@ try {
         }
 
         table {
-            font-family: arial, sans-serif;
             border-collapse: collapse;
             width: 100%;
         }
 
         td, th {
-            border: 1px solid #dddddd;
+            border: 0px;
             text-align: left;
-            padding: 8px;
-        }
-
-        tr:nth-child(even) {
-            background-color: #dddddd;
-        }
-
-        tr:nth-child(odd) {
-            background-color: rgb(200, 200, 200);
         }
 
         img {
@@ -79,61 +72,102 @@ try {
     }
     </style>
 
-    <head>
         <body>
             <!-- Top bar navigation -->
             <div class="navbar">
-                <div>
-                    <a href="Home.html">Home</a>
-                    <div class="dropdown">
-                        <button class="dropbtn">Databases
-                            <i class="fa fa-caret-down"></i>
-                        </button>
-                        
-                        <div class="dropdown-content">
-                            <a href="plantList.php">Plants</a>
-                            <a href="fertilizerList.php">Fertilizers</a>
-                            <a href="toolList.php">Tools</a>
-                            <a href="shopList.php">Shops</a>
-                        </div>
+            <div>
+                <a href="Home.html">Home</a>
+                <div class="dropdown">
+                    <button class="dropbtn">Databases
+                        <i class="fa fa-caret-down"></i>
+                    </button>
+                    
+                    <div class="dropdown-content">
+                        <a href="plantList.php">Plants</a>
+                        <a href="fertilizerList.php">Fertilizers</a>
+                        <a href="toolList.php">Tools</a>
+                        <a href="shopList.php">Shops</a>
                     </div>
                 </div>
-                <form action="logout.php" method="post">
-                    <button type="submit" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</button>
-                </form>
+
+                <a href="profile.html">Profile</a>
+                <a href="messageWall.html">Message Wall</a>
+                <a href="activity.html">Activity</a>
             </div>
 
-            <!-- Main Content -->
-            <?php
-                echo "<h1>$title</h1>";
-                echo "<h2>Description<h2>";
+            <form action="logout.php" method="post">
+                <button type="submit" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</button>
+            </form>
+        </div>
 
-                if (empty($results)) {
-                    echo "<p>There were no results!</p>";
-                } else {
-                    foreach ($results as $row) {
-                        $title = htmlspecialchars($row["title"]);
-                        $content = htmlspecialchars($row["content"]);
-                        $created_at = htmlspecialchars($row["created_at"]);
-                        $image = $row["image"];
+        <!-- Main Content -->
+        <div id="mainContainer">
+            <button id="openForm">Edit page</button>
+            <br><br>
 
-                        echo $title . ": " . $content . " " . $created_at;
-                        echo "<img src=" . $image . " alt=\"Image\">";
-                    }
-                }
-            ?>
-
-            <div id="mainContainer">
-            <h1>Comments</h1>
-
-            <form action="includes/createPage.php?categoryType=plant" method="post"> 
-                    <label for="comment">Post a comment</label>
+            <div id="overlay">
+                <?php
+                echo '<form action="includes/updatePage.php?pageid=' . urlencode($_GET["pageid"]) . '" method="post">';
+                ?>
+                    <label for="title">Title</label>
                     <br>
-                    <textarea id="Comment" type="text" name="comment" placeholder="Enter what you want to comment..." rows="10" cols="100"></textarea>
+                    <input required id="pageTitle" type="text" name="title" placeholder="Title...">
+        
+                    <br>
+                    <br>
+
+                    <label for="content">Description</label>
+                    <br>
+                    <textarea required id="pageContent" type="text" name="content" placeholder="Description..." rows="10" cols="100"></textarea>
+        
+                    <br>
+                    <br>
+
+                    <label for="image">Image Link</label>
+                    <br>
+                    <input required id="pageImage" type="text" name="image" placeholder="Image URL...">
+        
+                    <br>
                     <br>
                     <button type="submit">Submit</button>
-                    <br><br>
                 </form>
+            </div>
+            
+            <table>
+                <?php
+                    echo "<td><h1>$title</h1><h2>Description</h2>";
+
+                    if (empty($results)) {
+                        echo "<p>There is no description!</p>";
+                    } else {
+                        foreach ($results as $row) {
+                            $title = htmlspecialchars($row["title"]);
+                            $content = htmlspecialchars($row["content"]);
+                            $created_at = htmlspecialchars($row["created_at"]);
+                            $image = $row["image"];
+
+                            echo "<p>$content</p> <br> <p>Page was created on $created_at</p></td>";
+                            echo "<td><img src=$image alt=\"Image\"></td>";
+                        }
+                    }
+                ?>
+            </table>
+
+            <hr>
+            <h1>Comments</h1>
+            
+            <?php
+                $pageid = $_GET["pageid"];
+                $commentType = "pageid";
+                echo '<form action="includes/createComment.php?commentType=' . urlencode($commentType) . '&id=' . urlencode($pageid) . '" method="post">';
+            ?>
+                <label for="content">Post a comment</label>
+                <br>
+                <textarea id="Content" type="text" name="content" required placeholder="Enter what you want to comment..." rows="10" cols="100"></textarea>
+                <br><br>
+                <button type="submit">Submit</button>
+                <br><br>
+            </form>
 
             <?php
             try {
@@ -162,25 +196,76 @@ try {
             }
 
             if (empty($results)) {
-                echo "<p>Nobdoy has commented, be the first to reply!</p>";
+                echo "<p>Nobody has commented, be the first to reply!</p>";
             } else {
-                foreach ($results as $row) {
+                $count = 0;
+
+                foreach (array_reverse($results) as $row) {
+                    $count++;
+
                     $username = htmlspecialchars($row["username"]);
-                    $content = htmlspecialchars($row["content"]);
+                    $commentContent = htmlspecialchars($row["content"]);
                     $created_at = htmlspecialchars($row["created_at"]);
 
-                    echo $username . ": " . $content . " " . $created_at;
+                    echo '
+                    <style>
+                    #replyOverlay' . $count . ' {
+                        display: none;
+                    }
+                    </style>
+
+                    <h3>' . $username . '</h3>
+                    <p>' . $commentContent . '</p>
+                    <p>Commented on ' . $created_at . '</p>
+
+                    <div>
+                    <button id="openReply' . $count . '">Reply</button>
+
+                    <a href="createLike.html">
+                        <button>Likes (0)</button>
+                    </a>
+                    </div>
+                    
+                    <div id="replyOverlay' . $count . '">
+                        <form action="includes/updatePage.php?pageid=' . urlencode($_GET["pageid"]) . '" method="post">
+                            <br>
+                            <label for="content">Post a reply</label>
+                            <br>
+                            <textarea required id="replyContent" type="text" name="content" placeholder="Enter what you want to reply with..." rows="10" cols="100"></textarea>
+                
+                            <br>
+                            <br>
+                            <button type="submit">Post Reply</button>
+                        </form>
+                    </div><hr>
+
+                    <script>
+                        document.getElementById("openReply' . $count . '").addEventListener(\'click\', x => {
+                            if (document.getElementById("replyOverlay' . $count . '").style.display == "none") {
+                                document.getElementById("replyOverlay' . $count . '").style.display = "block";
+                            } else {
+                                document.getElementById("replyOverlay' . $count . '").style.display = "none";
+                            };
+                        });
+                    </script>
+                    ';
                 }
             }
             ?>
-
-            
-            </div>
-
-            <div>
                 
-            </div>
-        </body>
-    </head>
+        </div>
+
+    <script>
+    window.onload = function() {
+        <?php
+        echo "document.getElementById('pageTitle').value = '$title';
+        document.getElementById('pageContent').value = '$content';
+        document.getElementById('pageImage').value = '$image';";
+        ?>
+    };
+    </script>
+
+    <!-- <script src="scripts/main.js"></script> -->
+    </body>
 </html>
 

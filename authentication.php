@@ -13,7 +13,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             die("Connection failed: " . $conn->connect_error);
         }
 
-        $sql = "SELECT * FROM accounts WHERE username = '$username'";
+        $sql = "SELECT * 
+        FROM accounts 
+        WHERE username = '$username'";
+
         $result = $conn->query($sql);
 
         if ($result->num_rows > 0) {
