@@ -72,7 +72,6 @@ try {
     }
     </style>
 
-    <head>
         <body>
             <!-- Top bar navigation -->
             <div class="navbar">
@@ -104,6 +103,7 @@ try {
                 <a href="messageWall.html">Message Wall</a>
                 <a href="activity.html">Activity</a>
             </div>
+
             <form action="logout.php" method="post">
                 <button type="submit" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</button>
             </form>
@@ -111,6 +111,37 @@ try {
 
         <!-- Main Content -->
         <div id="mainContainer">
+            <button id="openForm">Edit page</button>
+            <br><br>
+
+            <div id="overlay" class="closed">
+                <?php
+                echo '<form action="includes/updatePage.php?pageid=' . urlencode($_GET["pageid"]) . '" method="post">';
+                ?>
+                    <label for="title">Title</label>
+                    <br>
+                    <input required id="pageTitle" type="text" name="title" placeholder="Title...">
+        
+                    <br>
+                    <br>
+
+                    <label for="content">Description</label>
+                    <br>
+                    <textarea required id="pageContent" type="text" name="content" placeholder="Description..." rows="10" cols="100"></textarea>
+        
+                    <br>
+                    <br>
+
+                    <label for="image">Image Link</label>
+                    <br>
+                    <input required id="pageImage" type="text" name="image" placeholder="Image URL...">
+        
+                    <br>
+                    <br>
+                    <button type="submit">Submit</button>
+                </form>
+            </div>
+            
             <table>
                 <?php
                     echo "<td><h1>$title</h1><h2>Description</h2>";
@@ -141,8 +172,8 @@ try {
             ?>
                 <label for="content">Post a comment</label>
                 <br>
-                <textarea id="Content" type="text" name="content" placeholder="Enter what you want to comment..." rows="10" cols="100"></textarea>
-                <br>
+                <textarea id="Content" type="text" name="content" required placeholder="Enter what you want to comment..." rows="10" cols="100"></textarea>
+                <br><br>
                 <button type="submit">Submit</button>
                 <br><br>
             </form>
@@ -176,19 +207,29 @@ try {
             if (empty($results)) {
                 echo "<p>Nobody has commented, be the first to reply!</p>";
             } else {
-                
                 foreach (array_reverse($results) as $row) {
                     $username = htmlspecialchars($row["username"]);
-                    $content = htmlspecialchars($row["content"]);
+                    $commentContent = htmlspecialchars($row["content"]);
                     $created_at = htmlspecialchars($row["created_at"]);
 
-                    echo "<h3>$username:</h3><p>$content</p><p>Commented on $created_at</p><hr>";
+                    echo "<h3>$username:</h3><p>$commentContent</p><p>Commented on $created_at</p><hr>";
                 }
             }
             ?>
                 
         </div>
-        </body>
-    </head>
+
+    <script>
+    window.onload = function() {
+        <?php
+        echo "document.getElementById('pageTitle').value = '$title';
+        document.getElementById('pageContent').value = '$content';
+        document.getElementById('pageImage').value = '$image';";
+        ?>
+    };
+    </script>
+
+    <script src="scripts/main.js"></script>
+    </body>
 </html>
 

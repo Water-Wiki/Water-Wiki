@@ -105,7 +105,7 @@ try {
             <h1>Plant List</h1>
 
             <button id="openForm">Create Page</button>
-            <br>
+            <br><br>
 
             <div id="overlay" class="closed">
                 <form action="includes/createPage.php?pageCategoryName=plant" method="post"> 
@@ -161,8 +161,9 @@ try {
                         }
                     }
                 ?>
-            </table>
 
+            </table>
+            
         </div>
         <script src="scripts/main.js"></script>
     </body>
