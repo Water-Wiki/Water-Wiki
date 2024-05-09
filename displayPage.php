@@ -176,13 +176,13 @@ try {
             if (empty($results)) {
                 echo "<p>Nobody has commented, be the first to reply!</p>";
             } else {
-                foreach ($results as $row) {
+                
+                foreach (array_reverse($results) as $row) {
                     $username = htmlspecialchars($row["username"]);
                     $content = htmlspecialchars($row["content"]);
                     $created_at = htmlspecialchars($row["created_at"]);
 
-                    echo $username . ": " . $content . " " . $created_at;
-                    echo "<br><br>";
+                    echo "<h3>$username:</h3><p>$content</p><p>Commented on $created_at</p><hr>";
                 }
             }
             ?>

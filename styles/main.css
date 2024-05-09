@@ -28,7 +28,7 @@
     text-align: center;
 }
 
-.imageContainer img {
+img {
     width: 200px;
     height: auto;
     max-width: 100%;
