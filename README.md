@@ -81,6 +81,5 @@ If the script takes too long, you may need to increase the time out value in MyS
 >
 > - Andy Nguyen: Backend of home page, forums, pages, comments, like/dislike, reply, and database lists
 > - William Tran: Frontend of all pages, script for creating dummy values
-> - Zach Bernales: Front and Backend of profile page, 
+> - Zach Bernales: Backend of login/registration pages, frontend and backend for the profile page (including the about page, message wall, and activity wall)
 > - Ravi G: Designed the SQL schema and XAMPP MySQL database for the project. Made frontend HTML/CSS templates for the Profile Page including the About Me (Bio), Message Wall, and Activity Log (later refined by William). Created the meeting minutes and slides of the project. Created the insertion scripts for the tables. Collaborated and worked with Andy on the Main Page backend (offered advice while he generated the code and software; also sent pieces of backend PHP code during Discord calls).
-> - Last Modified: April 21, 2024 7:09 PM PST
