@@ -128,7 +128,7 @@ $activity_data = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <div>
                 <h2>Activity</h2>
                 <ul>
-                    <?php foreach ($activity_data as $activity) : ?>
+                    <?php foreach (array_reverse($activity_data) as $activity) : ?>
                         <li><a href="profile.php?userid=<?php echo $activity['userid']; ?>"><?php echo $activity['username']; ?></a><?php echo $activity['description']; ?> - <?php echo $activity['created_at']; ?></li>
                     <?php endforeach; ?>
                 </ul>
