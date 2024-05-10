@@ -5,7 +5,7 @@
     <body>
         <?php
             if (isset($_POST["username"]) && isset($_POST["password"]) && isset($_POST["email"]) && isset($_POST["displayname"]))   {
-                $conn = mysqli_connect("localhost", "root", "password", "main_database", 3307);
+                $conn = mysqli_connect("localhost", "root", "", "main_database", 3306);
                 if (!$conn) {
                     die("Connection failed: " . mysqli_connect_error());
                 }

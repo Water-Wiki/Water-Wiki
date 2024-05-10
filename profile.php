@@ -1,9 +1,9 @@
 <?php
 // Step 1: Connect to the database
 session_start();
-$dsn = "mysql:host=localhost;port=3307;dbname=main_database";
+$dsn = "mysql:host=localhost;port=3306;dbname=main_database";
 $dbusername = "root";
-$dbpassword = "password";
+$dbpassword = "";
 
 try {
     $pdo = new PDO($dsn, $dbusername, $dbpassword);

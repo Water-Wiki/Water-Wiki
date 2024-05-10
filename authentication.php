@@ -7,7 +7,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Authenticate the user (replace this with your authentication logic)
         $username = $_POST['username'];
         $password = $_POST['password'];
-        $conn = mysqli_connect("localhost", "root", "password", "main_database", 3307);
+        $conn = mysqli_connect("localhost", "root", "", "main_database", 3306);
 
         if ($conn->connect_error) {
             die("Connection failed: " . $conn->connect_error);
