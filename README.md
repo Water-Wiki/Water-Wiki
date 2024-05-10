@@ -27,8 +27,8 @@
 
 ## How to setup vscode (Assuming you already have vscode)
 1. On vscode, enter the following:
-- Note: Remember where your path is located at
 > git clone "https://github.com/Water-Wiki/Water-Wiki.git"
+> - Note: Remember where your path is located at
 
 - Note: If an error occurs when starting MySQL, do the following steps:
 > 1. Change data folder name to
