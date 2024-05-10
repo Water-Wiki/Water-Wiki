@@ -13,7 +13,7 @@ try {
     // $query = "INSERT INTO users (username, pwd, email) VALUES ($username, $pwd, $email);";
 
     $query = "SELECT *
-    FROM pages
+    FROM forums
     WHERE title = \"" . $title . "\";";
 
     $stmt = $pdo->prepare($query); // statement, helps sanatize data
@@ -70,6 +70,11 @@ try {
         margin-left: auto;
         margin-right: auto;
     }
+
+    #forumOverlay {
+        display: none;
+    }
+
     </style>
 
         <body>
@@ -80,40 +85,34 @@ try {
 
         <!-- Main Content -->
         <div id="mainContainer">
-            <button id="openForm">Edit page</button>
-            <br><br>
+        <button id="openForm">Edit Forum Post</button>
+            <br>
 
             <div id="overlay">
                 <?php
-                echo '<form action="includes/updatePage.php?pageid=' . urlencode($_GET["pageid"]) . '" method="post">';
+                echo '<form action="includes/updateForum.php?forumid=' . urlencode($_GET["forumid"]) . '" method="post">';
                 ?>
                     <label for="title">Title</label>
                     <br>
-                    <input required id="pageTitle" type="text" name="title" placeholder="Title...">
+                    <input required id="forumTitle" type="text" name="title" placeholder="Title...">
         
                     <br>
                     <br>
 
                     <label for="content">Description</label>
                     <br>
-                    <textarea required id="pageContent" type="text" name="content" placeholder="Description..." rows="10" cols="100"></textarea>
+                    <textarea required id="forumContent" type="text" name="content" placeholder="Description..." rows="10" cols="100"></textarea>
         
                     <br>
                     <br>
 
-                    <label for="image">Image Link</label>
-                    <br>
-                    <input required id="pageImage" type="text" name="image" placeholder="Image URL...">
-        
-                    <br>
-                    <br>
                     <button type="submit">Submit</button>
                 </form>
             </div>
             
             <table>
                 <?php
-                    echo "<td><h1>$title</h1><h2>Description</h2>";
+                    echo "<td><h1>$title</h1><br>";
 
                     if (empty($results)) {
                         echo "<p>There is no description!</p>";
@@ -122,22 +121,85 @@ try {
                             $title = htmlspecialchars($row["title"]);
                             $content = htmlspecialchars($row["content"]);
                             $created_at = htmlspecialchars($row["created_at"]);
-                            $image = $row["image"];
 
-                            echo "<p>$content</p> <br> <p>Page was created on $created_at</p></td>";
-                            echo "<td><img src=$image alt=\"Image\"></td>";
+                            echo "<h3>$content</h3> <br> <p>Forum was created on $created_at</p></td>";
                         }
                     }
                 ?>
             </table>
 
+            <?php
+            // Get Count of LIKES under forumid
+            try {
+                require_once "includes/dbh.inc.php";
+        
+                $query = "SELECT COUNT(*) AS count
+                FROM likes
+                WHERE forumid = :forumid;";
+        
+                $stmt = $pdo->prepare($query); // statement, helps sanatize data
+        
+                $stmt->bindParam(":forumid", $forumid);
+        
+                $stmt->execute();
+        
+                $likeCount = $stmt->fetchAll(PDO::FETCH_ASSOC); // fetch associative
+            } catch (PDOException $e) {
+                die("Query failed: " . $e->getMessage()); // terminate the entire script and output an error message
+            }
+
+            // Get Count of DISLIKES under forumid
+            try {
+                require_once "includes/dbh.inc.php";
+        
+                $query = "SELECT COUNT(*) AS count
+                FROM dislikes
+                WHERE forumid = :forumid;";
+        
+                $stmt = $pdo->prepare($query); // statement, helps sanatize data
+        
+                $stmt->bindParam(":forumid", $forumid);
+        
+                $stmt->execute();
+        
+                $dislikeCount = $stmt->fetchAll(PDO::FETCH_ASSOC); // fetch associative
+            } catch (PDOException $e) {
+                die("Query failed: " . $e->getMessage()); // terminate the entire script and output an error message
+            }
+
+            if (empty($likeCount)) {
+                echo "<p>There is no description!</p>";
+            } else {
+                foreach ($likeCount as $row) {
+                    $likeCount = $row["count"];
+                }
+            }
+
+            if (empty($dislikeCount)) {
+                echo "<p>There is no description!</p>";
+            } else {
+                foreach ($dislikeCount as $row) {
+                    $dislikeCount = $row["count"];
+                }
+            }
+
+            echo '
+                <a href="includes/createReactionFeedback.php?idType=likeid&reactionType=likes&postType=forumid&id=' . $forumid . '">
+                    <button>Upvote(' . $likeCount . ')</button>
+                </a>
+                <a href="includes/createReactionFeedback.php?idType=dislikeid&reactionType=dislikes&postType=forumid&id=' . $forumid . '">
+                    <button>Downvote(' . $dislikeCount . ')</button>
+                </a>
+            ';
+            ?>
+
             <hr>
             <h1>Comments</h1>
             
             <?php
-                $pageid = $_GET["pageid"];
-                $commentType = "pageid";
-                echo '<form action="includes/createComment.php?commentType=' . urlencode($commentType) . '&id=' . urlencode($pageid) . '" method="post">';
+                $forumid = $_GET["forumid"];
+                $commentType = "forumid";
+                echo '<form action="includes/createComment.php?commentType=' . urlencode($commentType) . '&id=' . urlencode($forumid) . '" method="post">';
             ?>
                 <label for="content">Post a comment</label>
                 <br>
@@ -151,16 +213,16 @@ try {
             try {
                 require_once "includes/dbh.inc.php"; // this say we want to run another file with all the code in that file
 
-                $pageid = (int)$_GET["pageid"];
+                $forumid = (int)$_GET["forumid"];
 
                 $query = "SELECT c.created_at, c.content, a.username, c.commentid
                 FROM comments c
                 JOIN accounts a ON c.userid = a.userid
-                WHERE c.pageid = :pageid;";
+                WHERE c.forumid = :forumid;";
 
                 $stmt = $pdo->prepare($query); // statement, helps sanatize data
 
-                $stmt->bindParam(":pageid", $pageid);
+                $stmt->bindParam(":forumid", $forumid);
                 
                 $stmt->execute();
                 // $stmt->execute([$username, $pwd, $email]); // this can also be used, top may provide more readablility
@@ -250,13 +312,14 @@ try {
                     <p>Commented on ' . $created_at . '</p>
 
                     <div>
-                    <button class="small" id="openReply' . $count . '">Reply</button>
+                    <button id="openReply' . $count . '">Reply</button>
+
                     <a href="includes/createReactionFeedback.php?idType=likeid&reactionType=likes&postType=commentid&id=' . $commentid . '">
-                        <button class="small">Upvote(' . $likeCount . ')</button>
+                        <button>Upvote(' . $likeCount . ')</button>
                     </a>
 
                     <a href="includes/createReactionFeedback.php?idType=dislikeid&reactionType=dislikes&postType=commentid&id=' . $commentid . '">
-                        <button class="small">Downvote(' . $dislikeCount . ')</button>
+                        <button>Downvote(' . $dislikeCount . ')</button>
                     </a>
 
                     </div>
@@ -270,7 +333,7 @@ try {
                 
                             <br>
                             <br>
-                            <button class="small" type="submit">Post Reply</button>
+                            <button type="submit">Post Reply</button>
                         </form>
                     </div><hr>
 
@@ -295,9 +358,8 @@ try {
     <script>
     window.onload = function() {
         <?php
-        echo "document.getElementById('pageTitle').value = '$title';
-        document.getElementById('pageContent').value = '$content';
-        document.getElementById('pageImage').value = '$image';";
+        echo "document.getElementById('forumTitle').value = '$title';
+        document.getElementById('forumContent').value = '$content';"
         ?>
     };
     </script>
