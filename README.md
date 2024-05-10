@@ -56,6 +56,19 @@
 
 ## And you should be all set!
 
+## Adding dummy data
+1. Run dummyData.sql in MySQL after creating the databases needed to hold the data
+> The script creates
+>> 50 users in sequence
+>> 50 badges randomly assigned to users
+>> 200 pages randomly assigned to categories with Lorem ipsum text
+>> 50 forum posts assigned to random users with Lorem ipsum text
+>> 250 comments randomly assigned to users and pages with Lorem ipsum text
+>> 100 comments randomly assigned to users and forums with Lorem ipsum text
+>> 150 likes randomly assigned to users and comments
+>> 100 dislikes randomly assigned to users and comments
+>> 50 stars randomly assigned to users and receivers
+
 #### Contributers
 >
 > - Andy Nguyen
