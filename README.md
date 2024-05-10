@@ -69,9 +69,9 @@
 >> 100 dislikes randomly assigned to users and comments
 >> 50 stars randomly assigned to users and receivers
 
-#### Contributers
+#### Contributors
 >
-> - Andy Nguyen
+> - Andy Nguyen: Backend of home page, forums, pages, comments, like/dislike, reply, and database lists
 > - William Tran
 > - Zach Bernales
 > - Ravi G
