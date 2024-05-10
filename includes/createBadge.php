@@ -83,7 +83,6 @@ function createBadge($userid, $badgeTypeid) {
 
 if (!hasBadge($userid, getBadgeid($badgeTypeName))) {
     createBadge($userid, getBadgeid($badgeTypeName));
-
     echo "<script>alert(\"You've been awarded the [" . $badgeTypeName . "] badge!\")</script>";
 }
 

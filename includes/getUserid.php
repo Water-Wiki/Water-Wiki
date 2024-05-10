@@ -1,4 +1,8 @@
 <?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 // Get username from username from userid
 try {
     require_once "dbh.inc.php";
