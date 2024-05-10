@@ -30,9 +30,6 @@
 - Note: Remember where your path is located at
 > git clone "https://github.com/Water-Wiki/Water-Wiki.git"
 
-2. Locate "Databases" in the clone folder and add the inside contents to the following below:
-> xampp > MySQL > data
-
 - Note: If an error occurs when starting MySQL, do the following steps:
 > 1. Change data folder name to
 >> data_old
@@ -48,16 +45,25 @@
 > 7. Copy "ibdata1" file from "data_old" folder
 > 8. Paste into "data" folder and replace
 
-3. Rename the folder you cloned to
+2. Rename the folder you cloned to
 > htdocs
 
-4. Delete "htdocs" folder inside the "xampp" folder and replace it with the cloned "htdocs" folder
-5. Type localhost using any browser and begin the program inside Main.php.
+3. Delete "htdocs" folder inside the "xampp" folder and replace it with the cloned "htdocs" folder
+4. Type localhost using any browser and begin the program inside Main.php.
 
 ## And you should be all set!
 
 ## Adding dummy data
-1. Run dummyData.sql in MySQL after creating the databases needed to hold the data
+2 Methods
+
+1. Fast and preset data
+
+>- Locate "SQL Starter Execution" in clone folder or on Github repository and copy its content
+>- When XAMPP is started, enter "localhost/phpmyadmin" into your browser
+>- Locate "SQL" on one of the top tabs and paste the content
+>- Press go to start execution
+
+2. Slow and random data generator
 > The script creates
 >- 50 users in sequence
 >- 50 badges randomly assigned to users
@@ -75,6 +81,6 @@ If the script takes too long, you may need to increase the time out value in MyS
 >
 > - Andy Nguyen: Backend of home page, forums, pages, comments, like/dislike, reply, and database lists
 > - William Tran: Frontend of all pages, script for creating dummy values
-> - Zach Bernales
+> - Zach Bernales: Front and Backend of profile page, 
 > - Ravi G: Designed the SQL schema and XAMPP MySQL database for the project. Made frontend HTML/CSS templates for the Profile Page including the About Me (Bio), Message Wall, and Activity Log (later refined by William). Created the meeting minutes and slides of the project. Created the insertion scripts for the tables. Collaborated and worked with Andy on the Main Page backend (offered advice while he generated the code and software; also sent pieces of backend PHP code during Discord calls).
 > - Last Modified: April 21, 2024 7:09 PM PST
