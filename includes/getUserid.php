@@ -1,5 +1,5 @@
 <?php
-// Check if reaction has already been given
+// Get username from username from userid
 try {
     require_once "dbh.inc.php";
 
