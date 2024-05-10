@@ -77,5 +77,4 @@ If the script takes too long, you may need to increase the time out value in MyS
 > - William Tran: Frontend of all pages, script for creating dummy values
 > - Zach Bernales
 > - Ravi G: Designed the SQL schema for the project. Made frontend HTML/CSS templates for the Profile Page including the About Me (Bio), Message Wall, and Activity Log (later refined by William). Created the meeting minutes and slides of the project. Created the insertion scripts for the tables. Collaborated and worked with Andy on the Main Page backend (offered advice while he generated the code and software; also sent pieces of backend PHP code during Discord calls).
-> - Zach Hobbs
 > - Last Modified: April 21, 2024 7:09 PM PST
