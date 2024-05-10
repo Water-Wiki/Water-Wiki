@@ -10,15 +10,6 @@ $id = $_GET["id"]; // id of forums/comments
 // Get user id
 require_once "getUserid.php";
 
-if (empty($results)) {
-    echo "There was a problem finding userid.";
-    die();
-} else {
-    foreach ($results as $row) {
-        $userid = $row["userid"];
-    }
-}
-
 // Check for the one you selected if exist under userid and targeted forum/comment
 try {
     require_once "dbh.inc.php";

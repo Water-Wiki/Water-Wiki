@@ -10,15 +10,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Query for the id under username
     require_once "getUserid.php";
 
-    if (empty($results)) {
-        echo "There was a problem getting the user id.";
-        die();
-    } else {
-        foreach ($results as $row) {
-            $userid = $row["userid"];
-        }
-    }
-
     // Insert with userid
     try {
         require_once "dbh.inc.php";
