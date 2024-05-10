@@ -1,5 +1,7 @@
 <?php
 session_start();
+$badgeTypeName = "First Post";
+require_once "includes/createBadge.php";
 $_SESSION['lastPage'] = $_SERVER['REQUEST_URI'];
 $forumid = $_GET["forumid"];
 
