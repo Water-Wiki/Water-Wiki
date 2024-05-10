@@ -6,7 +6,7 @@
         unset($_SESSION['login_error']);
     }
     if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == TRUE) {
-        header("Location: Home.html");
+        header("Location: Home.php");
         exit; 
     }
 ?>
@@ -43,7 +43,7 @@
                     <p>Don't have an account? <a href="Registration.php">Register</a></p>
                 </div>
                 <div class="register-link">
-                    <p><a href="Home.html">Home</a></p>
+                    <p><a href="Home.php">Home</a></p>
                 </div>
             </form>
         </div>
