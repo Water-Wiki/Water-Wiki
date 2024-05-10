@@ -1,6 +1,7 @@
 <?php
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    session_start();
     // we're not using htmlspecialchars() because we're not outputting any data with echo, we're just inserting data to database
     $title = $_POST["title"];
     $content = $_POST["content"];
@@ -63,7 +64,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->execute();
 
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC); // fetch associative
-        $query = "SELECT userid 
+        $query = "SELECT * 
         FROM accounts
         WHERE username = :username;";
 
