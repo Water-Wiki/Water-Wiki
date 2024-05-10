@@ -1,7 +1,9 @@
 <?php
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
-// Check if reaction has already been given
+// Get username from username from userid
 try {
     require_once "dbh.inc.php";
 
@@ -20,4 +22,12 @@ try {
     die("Query failed: " . $e->getMessage()); // terminate the entire script and output an error message
 }
 
+if (empty($results)) {
+    echo "There was a problem getting the user id.";
+    die();
+} else {
+    foreach ($results as $row) {
+        $userid = $row["userid"];
+    }
+}
 ?>

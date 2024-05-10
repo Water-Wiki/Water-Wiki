@@ -10,15 +10,6 @@ $id = $_GET["id"]; // id of forums/comments
 // Get user id
 require_once "getUserid.php";
 
-if (empty($results)) {
-    echo "There was a problem finding userid.";
-    die();
-} else {
-    foreach ($results as $row) {
-        $userid = $row["userid"];
-    }
-}
-
 // Check for the one you selected if exist under userid and targeted forum/comment
 try {
     require_once "dbh.inc.php";
@@ -112,6 +103,14 @@ try {
 // if no result, add like/dislike
 if (empty($likeResults) && empty($dislikeResults)) {
     try {
+        if ($reactionType == "likes") {
+            $badgeTypeName = "First Like";
+        } else {
+            $badgeTypeName = "First Dislike";
+        }
+
+        require_once "createBadge.php";
+
         require_once "dbh.inc.php";
     
         $query = "INSERT INTO $reactionType (userid, $postType) 
@@ -159,6 +158,9 @@ if (!empty($likeResults)) {
     }
 
     try {
+        $badgeTypeName = "First Dislike";
+        require_once "createBadge.php";
+
         require_once "dbh.inc.php";
     
         $query = "INSERT INTO dislikes (userid, $postType) 
@@ -205,6 +207,9 @@ if (!empty($dislikeResults)) {
     try {
         require_once "dbh.inc.php";
     
+        $badgeTypeName = "First Like";
+        require_once "createBadge.php";
+
         $query = "INSERT INTO likes (userid, $postType) 
         VALUES (:userid, :id);";
     
@@ -217,7 +222,6 @@ if (!empty($dislikeResults)) {
 
         $pdo = null;
         $stmt = null;
-
         header("Location: .." . $_SESSION['lastPage']);
         die();
     } catch (PDOException $e) {
