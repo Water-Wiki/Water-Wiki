@@ -1,6 +1,9 @@
 <?php
 session_start();
+$badgeTypeName = "First Post";
+require_once "includes/createBadge.php";
 $_SESSION['lastPage'] = $_SERVER['REQUEST_URI'];
+$forumid = $_GET["forumid"];
 
 try {
     require_once "includes/dbh.inc.php"; // this say we want to run another file with all the code in that file
@@ -307,9 +310,8 @@ try {
                     }
                     </style>
 
-                    <h3>' . $username . '</h3>
-                    <p>' . $commentContent . '</p>
-                    <p>Commented on ' . $created_at . '</p>
+                    <h3>' . $commentContent . '</h3>
+                    <p>Commented by <a href="displayPage.php?username=' . $username . '">' . $username . '</a> on ' . $created_at . '</p>
 
                     <div>
                     <button id="openReply' . $count . '">Reply</button>

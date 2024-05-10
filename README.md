@@ -73,7 +73,7 @@ If the script takes too long, you may need to increase the time out value in MyS
 
 #### Contributors
 >
-> - Andy Nguyen
+> - Andy Nguyen: Backend of home page, forums, pages, comments, like/dislike, reply, and database lists
 > - William Tran: Frontend of all pages, script for creating dummy values
 > - Zach Bernales
 > - Ravi G
