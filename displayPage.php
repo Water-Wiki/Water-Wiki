@@ -245,9 +245,8 @@ try {
                     }
                     </style>
 
-                    <h3>' . $username . '</h3>
-                    <p>' . $commentContent . '</p>
-                    <p>Commented on ' . $created_at . '</p>
+                    <h3>' . $commentContent . '</h3>
+                    <p>Commented by <a href="displayPage.php?username=' . $username . '">' . $username . '</a> on ' . $created_at . '</p>
 
                     <div>
                     <button id="openReply' . $count . '">Reply</button>

@@ -20,4 +20,12 @@ try {
     die("Query failed: " . $e->getMessage()); // terminate the entire script and output an error message
 }
 
+if (empty($results)) {
+    echo "There was a problem getting the user id.";
+    die();
+} else {
+    foreach ($results as $row) {
+        $userid = $row["userid"];
+    }
+}
 ?>
