@@ -14,8 +14,6 @@ try {
 
 if (isset($_GET['userid'])) {
     $userid = $_GET['userid'];
-} else {
-    $userid = 2;
 }
 
 $sql = "SELECT description, created_at FROM activities WHERE userid = :userid ORDER BY created_at DESC";
@@ -88,7 +86,7 @@ $activity_data = $stmt->fetchAll(PDO::FETCH_ASSOC);
         
         <?php if ($activity_data) : ?>
             <div>
-                <h2>Activity</h2>
+                <h2><?php echo $_SESSION['username']?>'s activity</h2>
                 <ul>
                     <?php foreach ($activity_data as $activity) : ?>
                         <li><?php echo $activity['description']; ?> - <?php echo $activity['created_at']; ?></li>
