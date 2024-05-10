@@ -71,10 +71,10 @@
 
 If the script takes too long, you may need to increase the time out value in MySQL under Edit → Preferences → SQL Editor → DBMS connection read time out.
 
-#### Contributers
+#### Contributors
 >
 > - Andy Nguyen
-> - William Tran
+> - William Tran: Frontend of all pages, script for creating dummy values
 > - Zach Bernales
 > - Ravi G
 > - Zach Hobbs
