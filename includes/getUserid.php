@@ -1,6 +1,4 @@
 <?php
-session_start();
-
 // Check if reaction has already been given
 try {
     require_once "dbh.inc.php";

@@ -183,7 +183,7 @@ try {
 
                 $pageid = (int)$_GET["pageid"];
 
-                $query = "SELECT c.created_at, c.content, a.username, c.commentid
+                $query = "SELECT c.created_at, c.content, a.username, c.commentid, c.userid
                 FROM comments c
                 JOIN accounts a ON c.userid = a.userid
                 WHERE c.pageid = :pageid;";
@@ -211,6 +211,7 @@ try {
 
                     $commentid = $row["commentid"];
                     $username = htmlspecialchars($row["username"]);
+                    $userid = htmlspecialchars($row['userid']);
                     $commentContent = htmlspecialchars($row["content"]);
                     $created_at = htmlspecialchars($row["created_at"]);
 
@@ -276,7 +277,7 @@ try {
                     </style>
 
                     <h3>' . $commentContent . '</h3>
-                    <p>Commented by <a href="displayPage.php?username=' . $username . '">' . $username . '</a> on ' . $created_at . '</p>
+                    <p>Commented by <a href="profile.php?userid=' . $userid . '">' . $username . '</a> on ' . $created_at . '</p>
 
                     <div>
                     <button class="small" id="openReply' . $count . '">Reply</button>

@@ -1,6 +1,5 @@
 <?php
 // Step 1: Connect to the database
-session_start();
 $dsn = "mysql:host=localhost;port=3307;dbname=main_database";
 $dbusername = "root";
 $dbpassword = "password";

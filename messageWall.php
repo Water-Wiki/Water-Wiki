@@ -74,7 +74,7 @@
 
             $userid = (int)$_GET["userid"];
 
-            $query = "SELECT c.created_at, c.content, a.username, c.commentid
+            $query = "SELECT c.created_at, c.content, a.username, c.commentid, c.userid
             FROM comments c
             JOIN accounts a ON c.userid = a.userid
             WHERE c.wallid = :userid;";
@@ -102,6 +102,7 @@
 
                 $commentid = $row["commentid"];
                 $username = htmlspecialchars($row["username"]);
+                $userid = htmlspecialchars($row['userid']);
                 $commentContent = htmlspecialchars($row["content"]);
                 $created_at = htmlspecialchars($row["created_at"]);
 
@@ -166,19 +167,17 @@
                 }
                 </style>
 
-                <h3>' . $username . '</h3>
-                <p>' . $commentContent . '</p>
-                <p>Commented on ' . $created_at . '</p>
+                <h3>' . $commentContent . '</h3>
+                <p>Commented by <a href="profile.php?userid=' . $userid . '">' . $username . '</a> on ' . $created_at . '</p>
 
                 <div>
-                <button id="openReply' . $count . '">Reply</button>
-
+                <button class="small" id="openReply' . $count . '">Reply</button>
                 <a href="includes/createReactionFeedback.php?idType=likeid&reactionType=likes&postType=commentid&id=' . $commentid . '">
-                    <button>Upvote(' . $likeCount . ')</button>
+                    <button class="small">Upvote(' . $likeCount . ')</button>
                 </a>
 
                 <a href="includes/createReactionFeedback.php?idType=dislikeid&reactionType=dislikes&postType=commentid&id=' . $commentid . '">
-                    <button>Downvote(' . $dislikeCount . ')</button>
+                    <button class="small">Downvote(' . $dislikeCount . ')</button>
                 </a>
 
                 </div>
@@ -192,7 +191,7 @@
             
                         <br>
                         <br>
-                        <button type="submit">Post Reply</button>
+                        <button class="small" type="submit">Post Reply</button>
                     </form>
                 </div><hr>
 

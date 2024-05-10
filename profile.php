@@ -1,5 +1,6 @@
 <?php
 // Step 1: Connect to the database
+session_start();
 $dsn = "mysql:host=localhost;port=3307;dbname=main_database";
 $dbusername = "root";
 $dbpassword = "password";
@@ -27,24 +28,84 @@ if (isset($_GET['userid'])) {
     <link rel="stylesheet" href="styles/main.css">
     <link rel="stylesheet" href="styles/navigation.css">
 </head>
+<style>
+    body {
+        background-image: url('https://wallpapercave.com/wp/wp8335591.jpg');
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-attachment: fixed;
+    }
+
+    table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+
+    tr:nth-child(even) {
+        background-color: #dddddd;
+    }
+
+    tr:nth-child(odd) {
+        background-color: rgb(200, 200, 200);
+    }
+
+    img {
+    width: 100px;
+    height: 100px;
+    max-width: 100%;
+    max-height: 100%;
+    z-index: -1;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    }
+
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .logout-btn {
+        padding: 14px 16px;
+        margin-right: 20px; /* Adjust the margin as needed */
+        background-color: #f44336;
+        color: white;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+
+    .logout-btn:hover {
+        background-color: #da190b;
+    }
+
+    .profile-btn {
+        padding: 14px 16px;
+        margin-left: 20px; /* Adjust the margin as needed */
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+
+    .profile-btn:hover {
+        background-color: #45a049;
+    }
+</style>
 <body>
     <!-- Top bar navigation -->
-    <div class="navbar">
-        <a href="Home.php">Home</a>
-        <div class="dropdown">
-                    <button class="dropbtn">Databases
-                        <i class="fa fa-caret-down"></i>
-                    </button>
-                    
-                    <div class="dropdown-content">
-                        <a href="plantList.php">Plants</a>
-                        <a href="fertilizerList.php">Fertilizers</a>
-                        <a href="toolList.php">Tools</a>
-                        <a href="shopList.php">Shops</a>
-                    </div>
-                </div>
+    <?php
+        require_once "includes/createTopNavigation.php";
+    ?>
         
-    </div>
     <script>
         window.onload = function() {
         // Get the tab name from the URL if available

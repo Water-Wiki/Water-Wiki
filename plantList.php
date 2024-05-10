@@ -70,6 +70,7 @@ try {
     display: block;
     margin-left: auto;
     margin-right: auto;
+    }
 
     .navbar {
         display: flex;

@@ -8,6 +8,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $image = $_POST["image"];
     $pageCategoryName = $_GET["pageCategoryName"];
     $pageCategoryid = NULL;
+    
 
     // Query for the id under the categoryName
     try {

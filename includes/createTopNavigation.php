@@ -13,10 +13,7 @@
                         <a href="shopList.php">Shops</a>
                     </div>
                 </div>
-                <a href="profile.html">Profile</a>
-                <a href="messageWall.html">Message Wall</a>
-                <a href="activity.html">Activity</a>
-                <a href="forum.php">Forum</a>
+                <button onclick="location.href='profile.php?userid=<?php echo $userid; ?>';" class="profile-btn"><i class="fas fa-user"></i> Profile</button>
             </div>
             <form action="logout.php" method="post">
                 <button type="submit" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</button>
