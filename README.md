@@ -59,20 +59,22 @@
 ## Adding dummy data
 1. Run dummyData.sql in MySQL after creating the databases needed to hold the data
 > The script creates
->> 50 users in sequence
->> 50 badges randomly assigned to users
->> 200 pages randomly assigned to categories with Lorem ipsum text
->> 50 forum posts assigned to random users with Lorem ipsum text
->> 250 comments randomly assigned to users and pages with Lorem ipsum text
->> 100 comments randomly assigned to users and forums with Lorem ipsum text
->> 150 likes randomly assigned to users and comments
->> 100 dislikes randomly assigned to users and comments
->> 50 stars randomly assigned to users and receivers
+>- 50 users in sequence
+>- 50 badges randomly assigned to users
+>- 200 pages randomly assigned to categories with Lorem ipsum text
+>- 50 forum posts assigned to random users with Lorem ipsum text
+>- 250 comments randomly assigned to users and pages with Lorem ipsum text
+>- 100 comments randomly assigned to users and forums with Lorem ipsum text
+>- 150 likes randomly assigned to users and comments
+>- 100 dislikes randomly assigned to users and comments
+>- 50 stars randomly assigned to users and receivers
+
+If the script takes too long, you may need to increase the time out value in MySQL under Edit → Preferences → SQL Editor → DBMS connection read time out.
 
 #### Contributors
 >
 > - Andy Nguyen: Backend of home page, forums, pages, comments, like/dislike, reply, and database lists
-> - William Tran
+> - William Tran: Frontend of all pages, script for creating dummy values
 > - Zach Bernales
 > - Ravi G
 > - Zach Hobbs
