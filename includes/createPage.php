@@ -101,6 +101,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         die("Query failed: " . $e->getMessage()); // terminate the entire script and output an error message
     }
 } else {
-    header("Location: ../Home.html");
+    header("Location: ../Home.php");
     echo "There was a problem";
 }
