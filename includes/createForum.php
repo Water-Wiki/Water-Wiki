@@ -2,14 +2,12 @@
 session_start();
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // we're not using htmlspecialchars() because we're not outputting any data with echo, we're just inserting data to database
-    $userid = null;
+    $title = $_POST["title"];
     $content = $_POST["content"];
-    $commentType = $_GET["commentType"];
-    $id = $_GET["id"];
 
     // Query for the id under username
     require_once "getUserid.php";
-
+    echo "Test1";
     if (empty($results)) {
         echo "There was a problem getting the user id.";
         die();
@@ -18,26 +16,46 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $userid = $row["userid"];
         }
     }
-
+    echo "Test1";
     // Insert with userid
     try {
         require_once "dbh.inc.php";
 
-        $query = "INSERT INTO comments (content, userid," . $commentType . ") VALUES
-        (:content, :userid, :id);";
+        $query = "INSERT INTO forums (title, content, userid) VALUES
+        (:title, :content, :userid);";
 
         $stmt = $pdo->prepare($query); // statement, helps sanatize data
 
+        $stmt->bindParam(":title", $title);
         $stmt->bindParam(":content", $content);
         $stmt->bindParam(":userid", $userid);
-        $stmt->bindParam(":id", $id);
 
         $stmt->execute();
+
+        $query = "SELECT forumid
+        FROM forums
+        ORDER BY forumid DESC
+        LIMIT 1;";
+
+        $stmt = $pdo->prepare($query); // statement, helps sanatize data
+
+        $stmt->execute();
+
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC); // fetch associative
+
+        if (empty($results)) {
+            echo "There was a problem.";
+            die();
+        } else {
+            foreach ($results as $row) {
+                $forumid = $row["forumid"];
+            }
+        }
 
         $pdo = null;
         $stmt = null;
 
-        header("Location: .." . $_SESSION['lastPage']);
+        header("Location: ../displayForum.php?title=" . $title .'&forumid=' . $forumid);
 
         die();
     } catch (PDOException $e) {
