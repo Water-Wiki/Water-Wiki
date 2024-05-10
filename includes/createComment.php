@@ -7,6 +7,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $commentType = $_GET["commentType"];
     $id = $_GET["id"];
 
+
     // Query for the id under username
     require_once "getUserid.php";
 
@@ -25,10 +26,57 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         $stmt->execute();
 
+        $description = "";
+        switch ($commentType) {
+            case 'pageid':
+                $query = "SELECT * FROM pages WHERE pageid = :id";
+                $stmt = $pdo->prepare($query);
+                $stmt->bindParam(':id', $id);
+                $stmt->execute();
+                $results = $stmt->fetch(PDO::FETCH_ASSOC);
+                $description = " commented on page '" . $results['title'] . "'";
+                break;
+            case 'forumid':
+                $query = "SELECT * FROM forums WHERE forumid = :forumid";
+                $stmt = $pdo->prepare($query);
+                $stmt->bindParam(":forumid", $id);
+                $stmt->execute();
+                $results = $stmt->fetch(PDO::FETCH_ASSOC);
+                $description = " commented on forum '" . $results['title'] . "'";
+                break;
+            case 'wallid':
+                $query = "SELECT * FROM accounts WHERE userid = :userid";
+                $stmt = $pdo->prepare($query);
+                $stmt->bindParam(":userid", $id);
+                $stmt->execute();
+                $results = $stmt->fetch(PDO::FETCH_ASSOC);
+                $description = " posted a message on the profile of '" . $results['username'] . "'";
+                break;
+            case 'replyid':
+                $query = "SELECT * FROM comments WHERE commentid = :commentid";
+                $stmt = $pdo->prepare($query);
+                $stmt->bindParam(":commentid", $id);
+                $stmt->execute();
+                $results = $stmt->fetch(PDO::FETCH_ASSOC);
+                $description = " replied to comment '" . $results['content'] . "'";
+                break;
+            default:
+                $description = " did something";
+                break;
+            }
+        $query = "INSERT INTO activities (userid, description, " . $commentType . ") VALUES (:userid, :description, :id)";
+        $stmt = $pdo->prepare($query); 
+
+        $stmt->bindParam(":userid", $userid);
+        $stmt->bindParam(":description", $description);
+        $stmt->bindParam(":id", $id);
+
+        $stmt->execute();
+
         $pdo = null;
         $stmt = null;
 
-        header("Location: .." . $_SESSION['lastPage']);
+        header("Location: " . $_SESSION['lastPage']);
 
         die();
     } catch (PDOException $e) {

@@ -70,6 +70,40 @@ try {
     display: block;
     margin-left: auto;
     margin-right: auto;
+    }
+
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .logout-btn {
+        padding: 14px 16px;
+        margin-right: 20px; /* Adjust the margin as needed */
+        background-color: #f44336;
+        color: white;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+
+    .logout-btn:hover {
+        background-color: #da190b;
+    }
+
+    .profile-btn {
+        padding: 14px 16px;
+        margin-left: 20px; /* Adjust the margin as needed */
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+
+    .profile-btn:hover {
+        background-color: #45a049;
+    }
 }
 </style>
 
