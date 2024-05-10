@@ -7,6 +7,7 @@ $postType = $_GET["postType"]; // forumid/commentid
 $idType = $_GET["idType"]; // likeid/dislikeid
 $id = $_GET["id"]; // id of forums/comments
 
+
 // Get user id
 require_once "getUserid.php";
 
@@ -53,7 +54,7 @@ if (!empty($results)) {
         $pdo = null;
         $stmt = null;
 
-        header("Location: .." . $_SESSION['lastPage']);
+        header("Location: " . $_SESSION['lastPage']);
         die();
     } catch (PDOException $e) {
         die("Query failed: " . $e->getMessage()); // terminate the entire script and output an error message
@@ -124,11 +125,37 @@ if (empty($likeResults) && empty($dislikeResults)) {
         $stmt->execute();
     
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC); // fetch associative
+        $query = "SELECT * FROM $reactionType WHERE (userid = :userid AND commentid = :commentid)";
+        $stmt = $pdo->prepare($query);
+        $stmt->bindParam(":userid", $userid);
+        $stmt->bindParam(":commentid", $id);
+        $stmt->execute();
+        $results = $stmt->fetch(PDO::FETCH_ASSOC);
+        $reactionid = $results[$idType];
+        $query = "SELECT * FROM comments WHERE commentid = :commentid";
+        $stmt = $pdo->prepare($query);
+        $stmt->bindParam(":commentid", $id);
+        $stmt->execute();
+        $results = $stmt->fetch(PDO::FETCH_ASSOC);
+        $description = "";
+        if ($idType == "likeid") {
+            $description = " liked comment '" . $results['content'] . "'";
+        } else {
+            $description = " disliked comment '" . $results['content'] . "'";
+        }
+        $query = "INSERT INTO activities (userid, description, $idType) VALUES (:userid, :description, :id)";
+        $stmt = $pdo->prepare($query); 
+
+        $stmt->bindParam(":userid", $userid);
+        $stmt->bindParam(":description", $description);
+        $stmt->bindParam(":id", $reactionid);
+
+        $stmt->execute();
 
         $pdo = null;
         $stmt = null;
 
-        header("Location: .." . $_SESSION['lastPage']);
+        header("Location: " . $_SESSION['lastPage']);
         die();
     } catch (PDOException $e) {
         die("Query failed: " . $e->getMessage()); // terminate the entire script and output an error message
@@ -172,11 +199,33 @@ if (!empty($likeResults)) {
         $stmt->bindParam(":id", $id);
     
         $stmt->execute();
+        $query = "SELECT * FROM dislikes WHERE (userid = :userid AND commentid = :commentid)";
+        $stmt = $pdo->prepare($query);
+        $stmt->bindParam(":userid", $userid);
+        $stmt->bindParam(":commentid", $id);
+        $stmt->execute();
+        $results = $stmt->fetch(PDO::FETCH_ASSOC);
+        $dislikeid = $results['dislikeid'];
+        $query = "SELECT * FROM comments WHERE commentid = :commentid";
+        $stmt = $pdo->prepare($query);
+        $stmt->bindParam(":commentid", $id);
+        $stmt->execute();
+        $results = $stmt->fetch(PDO::FETCH_ASSOC);
+        $description = "";
+        $description = " disliked comment '" . $results['content'] . "'";
+        $query = "INSERT INTO activities (userid, description, dislikeid) VALUES (:userid, :description, :dislikeid)";
+        $stmt = $pdo->prepare($query); 
+
+        $stmt->bindParam(":userid", $userid);
+        $stmt->bindParam(":description", $description);
+        $stmt->bindParam(":dislikeid", $dislikeid);
+
+        $stmt->execute();
 
         $pdo = null;
         $stmt = null;
 
-        header("Location: .." . $_SESSION['lastPage']);
+        header("Location: " . $_SESSION['lastPage']);
         die();
     } catch (PDOException $e) {
         die("Query failed: " . $e->getMessage()); // terminate the entire script and output an error message
@@ -219,14 +268,38 @@ if (!empty($dislikeResults)) {
         $stmt->bindParam(":id", $id);
     
         $stmt->execute();
+        $query = "SELECT * FROM likes WHERE (userid = :userid AND commentid = :commentid)";
+        $stmt = $pdo->prepare($query);
+        $stmt->bindParam(":userid", $userid);
+        $stmt->bindParam(":commentid", $id);
+        $stmt->execute();
+        $results = $stmt->fetch(PDO::FETCH_ASSOC);
+        $likeid = $results['likeid'];
+        $query = "SELECT * FROM comments WHERE commentid = :commentid";
+        $stmt = $pdo->prepare($query);
+        $stmt->bindParam(":commentid", $id);
+        $stmt->execute();
+        $results = $stmt->fetch(PDO::FETCH_ASSOC);
+        $description = "";
+        $description = " liked comment '" . $results['content'] . "'";
+        $query = "INSERT INTO activities (userid, description, likeid) VALUES (:userid, :description, :likeid)";
+        $stmt = $pdo->prepare($query); 
+
+        $stmt->bindParam(":userid", $userid);
+        $stmt->bindParam(":description", $description);
+        $stmt->bindParam(":likeid", $likeid);
+
+        $stmt->execute();
 
         $pdo = null;
         $stmt = null;
+
         header("Location: .." . $_SESSION['lastPage']);
         die();
     } catch (PDOException $e) {
         die("Query failed: " . $e->getMessage()); // terminate the entire script and output an error message
     }
+
 }
 
 ?>

@@ -13,9 +13,7 @@
                         <a href="shopList.php">Shops</a>
                     </div>
                 </div>
-                <a href="profile.html">Profile</a>
-                <a href="messageWall.html">Message Wall</a>
-                <a href="activity.html">Activity</a>
+                <button onclick="location.href='profile.php?userid=<?php echo $userid; ?>';" class="profile-btn"><i class="fas fa-user"></i> Profile</button>
                 <a href="forum.php">Forum</a>
             </div>
             <form action="logout.php" method="post">

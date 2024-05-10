@@ -69,7 +69,37 @@ try {
         display: block;
         margin-left: auto;
         margin-right: auto;
-    }
+        }
+        .navbar {
+        display: flex;
+        justify-content: space-between;
+        }
+        .logout-btn {
+        padding: 14px 16px;
+        margin-right: 20px; /* Adjust the margin as needed */
+        background-color: #f44336;
+        color: white;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+        }
+
+        .logout-btn:hover {
+        background-color: #da190b;
+        }
+        .profile-btn {
+        padding: 14px 16px;
+        margin-left: 20px; /* Adjust the margin as needed */
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+     }
+
+        .profile-btn:hover {
+            background-color: #45a049;
+        }
     </style>
 
         <body>
@@ -153,7 +183,7 @@ try {
 
                 $pageid = (int)$_GET["pageid"];
 
-                $query = "SELECT c.created_at, c.content, a.username, c.commentid
+                $query = "SELECT c.created_at, c.content, a.username, c.commentid, c.userid
                 FROM comments c
                 JOIN accounts a ON c.userid = a.userid
                 WHERE c.pageid = :pageid;";
@@ -181,6 +211,7 @@ try {
 
                     $commentid = $row["commentid"];
                     $username = htmlspecialchars($row["username"]);
+                    $userid = htmlspecialchars($row['userid']);
                     $commentContent = htmlspecialchars($row["content"]);
                     $created_at = htmlspecialchars($row["created_at"]);
 
@@ -246,7 +277,7 @@ try {
                     </style>
 
                     <h3>' . $commentContent . '</h3>
-                    <p>Commented by <a href="displayPage.php?username=' . $username . '">' . $username . '</a> on ' . $created_at . '</p>
+                    <p>Commented by <a href="profile.php?userid=' . $userid . '">' . $username . '</a> on ' . $created_at . '</p>
 
                     <div>
                     <button class="small" id="openReply' . $count . '">Reply</button>

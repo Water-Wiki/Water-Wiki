@@ -5,14 +5,14 @@
     <body>
         <?php
             if (isset($_POST["username"]) && isset($_POST["password"]) && isset($_POST["email"]) && isset($_POST["displayname"]))   {
-                $conn = mysqli_connect("localhost", "root", "", "main_database");
+                $conn = mysqli_connect("localhost", "root", "", "main_database", 3306);
                 if (!$conn) {
                     die("Connection failed: " . mysqli_connect_error());
                 }
                 $username = $_POST["username"];
                 $password = $_POST["password"];
                 $email = $_POST["email"];
-                $displayname = $_POST["displayName"];
+                $displayname = $_POST["displayname"];
 
                 $sql="SELECT * 
                 FROM accounts 

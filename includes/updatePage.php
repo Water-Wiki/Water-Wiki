@@ -24,6 +24,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->bindParam(":pageid", $pageid);
 
         $stmt->execute();
+        $query = "SELECT * 
+        FROM accounts
+        WHERE username = :username;";
+
+        $stmt = $pdo->prepare($query);
+
+        $stmt->bindParam(":username", $_SESSION['username']);
+
+        $stmt->execute();
+
+        $userResults = $stmt->fetch(PDO::FETCH_ASSOC);
+        $description = " updated page '" . $title . "'";
+        $query = "INSERT INTO activities (description, userid) VALUES (:description, :userid)";
+        $stmt = $pdo->prepare($query);
+
+        $stmt->bindParam(":description", $description);
+        $stmt->bindParam(":userid", $userResults['userid']);
+        $stmt->execute();
 
         $pdo = null;
         $stmt = null;

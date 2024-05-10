@@ -1,5 +1,5 @@
 <?php
-session_start();
+// Step 1: Connect to the database
 $dsn = "mysql:host=localhost;port=3307;dbname=main_database";
 $dbusername = "root";
 $dbpassword = "password";
@@ -12,15 +12,29 @@ try {
     exit; // Terminate the script if connection fails
 }
 
-if ($_SESSION['logged_in']) {
-    $username= $_SESSION['username'];
-}
+// Step 2: Retrieve user information
+// You need to specify the user ID or username for which you want to display the profile
+//$username = $_SESSION['username']; // Assuming the user ID is 1, replace it with the actual user ID
 
-$sql = "SELECT * FROM ACCOUNTS WHERE username = :username";
+// Prepare the SQL query
+//$sql = "SELECT userid FROM Accounts WHERE username = :username";
+
+// Prepare and execute the statement
+//$stmt = $pdo->prepare($sql);
+//$stmt->execute(['username' => $username]);
+
+// Fetch the user data
+//$userdata = $stmt->fetch(PDO::FETCH_ASSOC);
+//$userid = $userdata['userid'];
+
+$sql = "SELECT *FROM ACTIVITIES JOIN ACCOUNTS ON ACTIVITIES.userid = ACCOUNTS.userid;";
 $stmt = $pdo->prepare($sql);
-$stmt->execute(['username' => $username]);
-$user_data = $stmt->fetch(PDO::FETCH_ASSOC);
-$userid = $user_data['userid']
+$stmt->execute();
+
+$activity_data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+
+// Step 3: Display the profile information
 ?>
 
 <!DOCTYPE html>
@@ -28,11 +42,10 @@ $userid = $user_data['userid']
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
+    <title>Plant List</title>
     <link rel="stylesheet" href="styles/main.css">
     <link rel="stylesheet" href="styles/navigation.css">
     <!-- <link rel="stylesheet" href="styles/mainNavigation.css"> -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 
 <style>
@@ -57,6 +70,22 @@ $userid = $user_data['userid']
 
     tr:nth-child(even) {
         background-color: #dddddd;
+    }
+
+    tr:nth-child(odd) {
+        background-color: rgb(200, 200, 200);
+    }
+
+   
+    img {
+    width: 100px;
+    height: 100px;
+    max-width: 100%;
+    max-height: 100%;
+    z-index: -1;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
     }
 
     .navbar {
@@ -92,48 +121,23 @@ $userid = $user_data['userid']
         background-color: #45a049;
     }
 </style>
-
-</head>
-    <body>
-        <!-- Top bar navigation -->
-        <?php
-        require_once "includes/createTopNavigation.php";
-        ?>
-
-
+<body>
         <!-- Main Content -->
         <div id="mainContainer">
-            <h1>The Water Wiki</h1>
-            <hr>
-            <p>Welcome to Water Wiki, a wiki about plant care.</p>
-            <hr>
-            <div class="imageContainer">
-                <!-- <img src="img_snow_wide.jpg" alt="Snow" style="width:100%;">
-                <div class="bottom-left">Bottom Left</div> -->
-
-                <div class="square" onclick="location.href='plantList.php';">
-                    <img src="https://vectorified.com/images/plant-icon-21.png" alt="Image">
-                    <p>Plants</p>
-                </div>
-
-                <div class="square" onclick="location.href='fertilizerList.php';">
-                    <img src="https://static.vecteezy.com/system/resources/previews/000/568/870/original/fertilizer-icon-vector.jpg" alt="Image">
-                    <p>Fertilizer</p>
-                </div>
-
-                <div class="square" onclick="location.href='toolList.php';">
-                    <img src="https://static.vecteezy.com/system/resources/previews/000/571/249/original/tool-icon-vector.jpg" alt="Image">
-                    <p>Tools</p>
-                </div>
-
-                <div class="square" onclick="location.href='shopList.php';">
-                    <img src="https://static.vecteezy.com/system/resources/previews/000/349/187/original/vector-shop-icon.jpg" alt="Image">
-                    <p>Shops</p>
-                </div>
+        <?php if ($activity_data) : ?>
+            <div>
+                <h2>Activity</h2>
+                <ul>
+                    <?php foreach (array_reverse($activity_data) as $activity) : ?>
+                        <li><a href="profile.php?userid=<?php echo $activity['userid']; ?>"><?php echo $activity['username']; ?></a><?php echo $activity['description']; ?> - <?php echo $activity['created_at']; ?></li>
+                    <?php endforeach; ?>
+                </ul>
             </div>
+        <?php else : ?>
+            <p>Activity not found.</p>
+        <?php endif; ?>
+          <script src="scripts/main.js"></script>
         </div>
-        <?php
-        require_once "includes/createGlobalActivity.php";
-        ?>
     </body>
+</head>
 </html>
