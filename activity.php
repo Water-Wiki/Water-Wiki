@@ -86,7 +86,7 @@ $activity_data = $stmt->fetchAll(PDO::FETCH_ASSOC);
         
         <?php if ($activity_data) : ?>
             <div>
-                <h2><?php echo $_SESSION['username']?>'s activity</h2>
+                <h2>Activity</h2>
                 <ul>
                     <?php foreach ($activity_data as $activity) : ?>
                         <li><?php echo $activity['description']; ?> - <?php echo $activity['created_at']; ?></li>
