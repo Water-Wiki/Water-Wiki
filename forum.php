@@ -106,7 +106,7 @@
             try {
                 require_once "includes/dbh.inc.php"; // this say we want to run another file with all the code in that file
 
-                $query = "SELECT f.created_at, f.content, a.username, f.forumid, f.title
+                $query = "SELECT f.created_at, f.content, a.username, f.forumid, f.title, f.userid
                 FROM forums f
                 JOIN accounts a ON f.userid = a.userid;";
 
@@ -129,13 +129,14 @@
                     $title = $row["title"];
                     $forumid = $row["forumid"];
                     $username = htmlspecialchars($row["username"]);
+                    $userid = htmlspecialchars($row["userid"]);
                     $commentContent = htmlspecialchars($row["content"]);
                     $created_at = htmlspecialchars($row["created_at"]);
                     $content = $row["content"];
 
                     echo '
                     <a href="displayForum.php?title=' . $title .'&forumid=' . $forumid . '"><h2>' . $title . '</h2></a>
-                    <p>Posted by <a href="displayPage.php?title=' . $title .'&forumid=' . $forumid . '">' . $username . '</a> on ' . $created_at . '</p><hr>
+                    <p>Posted by <a href="profile.php?userid=' . $userid . '">' . $username . '</a> on ' . $created_at . '</p><hr>
                     ';
                 }
             }
