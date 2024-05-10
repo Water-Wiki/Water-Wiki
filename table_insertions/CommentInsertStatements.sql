@@ -1,0 +1,21 @@
+INSERT INTO comments (content, userid, pageid) VALUES ('Content for Comment 1', 1, 1);
+INSERT INTO comments (content, userid, pageid) VALUES ('Content for Comment 2', 2, 2);
+INSERT INTO comments (content, userid, pageid) VALUES ('Content for Comment 3', 3, 3);
+INSERT INTO comments (content, userid, pageid) VALUES ('Content for Comment 4', 4, 4);
+INSERT INTO comments (content, userid, pageid) VALUES ('Content for Comment 5', 5, 5);
+INSERT INTO comments (content, userid, forumid) VALUES ('Content for Comment 6', 6, 1);
+INSERT INTO comments (content, userid, forumid) VALUES ('Content for Comment 7', 7, 2);
+INSERT INTO comments (content, userid, forumid) VALUES ('Content for Comment 8', 8, 3);
+INSERT INTO comments (content, userid, forumid) VALUES ('Content for Comment 9', 9, 4);
+INSERT INTO comments (content, userid, forumid) VALUES ('Content for Comment 10', 10, 5);
+INSERT INTO comments (content, userid, wallid) VALUES ('Content for Comment 11', 11, 16);
+INSERT INTO comments (content, userid, wallid) VALUES ('Content for Comment 12', 12, 17);
+INSERT INTO comments (content, userid, wallid) VALUES ('Content for Comment 13', 13, 18);
+INSERT INTO comments (content, userid, wallid) VALUES ('Content for Comment 14', 14, 19);
+INSERT INTO comments (content, userid, wallid) VALUES ('Content for Comment 15', 15, 20);
+INSERT INTO comments (content, userid, replyid) VALUES ('Content for Comment 16', 16, 1);
+INSERT INTO comments (content, userid, replyid) VALUES ('Content for Comment 17', 17, 2);
+INSERT INTO comments (content, userid, replyid) VALUES ('Content for Comment 18', 18, 3);
+INSERT INTO comments (content, userid, replyid) VALUES ('Content for Comment 19', 19, 4);
+INSERT INTO comments (content, userid, replyid) VALUES ('Content for Comment 20', 20, 5);
+

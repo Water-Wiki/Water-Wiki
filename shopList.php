@@ -76,25 +76,9 @@ try {
 </head>
     <body>
         <!-- Top bar navigation -->
-        <div class="navbar">
-            <a href="Home.php">Home</a>
-            <div class="dropdown">
-                <button class="dropbtn">Databases
-                    <i class="fa fa-caret-down"></i>
-                </button>
-                
-                <div class="dropdown-content">
-                    <a href="plantList.php">Plants</a>
-                    <a href="fertilizerList.php">Fertilizers</a>
-                    <a href="toolList.php">Tools</a>
-                    <a href="shopList.php">Shops</a>
-                </div>
-                <a href="profile.php">Profile</a>
-            </div>
-            <form action="logout.php" method="post">
-                <button type="submit" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</button>
-            </form>
-        </div>
+        <?php
+        require_once "includes/createTopNavigation.php";
+        ?>
 
         <!-- Main Content -->
         <div id="mainContainer">

@@ -156,6 +156,10 @@ button:hover {
     background-color: #222;
 }
 
+.small {
+    padding: 7px 8px;
+}
+
 td {
     word-wrap: break-word;
     max-width:150px;
